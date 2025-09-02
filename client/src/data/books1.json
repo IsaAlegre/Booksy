@@ -46,5 +46,21 @@
     "image": "/img/libro4.jpg",
     "description": "En un futuro distópico, la nación de Panem obliga a cada distrito a enviar un tributo masculino y uno femenino para participar en los Juegos del Hambre: un reality show televisado donde solo puede sobrevivir uno. Katniss Everdeen, una joven del Distrito 12, se convierte en un símbolo de resistencia cuando decide luchar no solo por su vida, sino también contra la opresión del Capitolio. Una historia intensa de supervivencia, poder, sacrificio y esperanza que marcó a toda una generación de lectores.",
     "rating": 4.8
+  },
+  {
+    "id": 7,
+    "title": "La tormenta del siglo",
+    "author": "Stephen King",
+    "image": "/img/libro7.jpg",
+    "description": "Una pequeña isla costera de Maine se prepara para lo que los meteorólogos llaman 'la tormenta del siglo'. Sin embargo, la nieve y los vientos huracanados no son el mayor peligro. Un extraño, el enigmático y malvado Linoge, llega a la isla y aterroriza a sus habitantes. Su objetivo es un misterioso intercambio: 'Dadme lo que quiero y me marcharé'. Un relato claustrofóbico y lleno de suspense que explora la naturaleza del mal y las decisiones extremas que la gente toma para sobrevivir.",
+    "rating": 4.5
+  },
+  {
+    "id": 8,
+    "title": "Un cadáver en la biblioteca",
+    "author": "Agatha Christie",
+    "image": "/img/libro8.jpg",
+    "description": "El apacible hogar del coronel y la señora Bantry en St. Mary Mead se ve repentinamente alterado al descubrir el cuerpo de una joven, vestida de noche, en su biblioteca. A pesar de que ninguno de los dos la conoce, la aparición de un segundo cuerpo en una cantera cercana pronto revela un caso más complejo. Para resolver el misterio y limpiar el nombre de su marido, la señora Bantry pide ayuda a su amiga, la perspicaz Miss Marple, quien con su agudeza y conocimiento de la naturaleza humana, se dispone a desenmascarar al culpable.",
+    "rating": 4.7
   }
 ]

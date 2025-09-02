@@ -93,7 +93,6 @@ export default function SuggestionForm() {
           />
         </div>
 
-        {/* Recomendación de mejora */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             ¿Qué mejorarías del sistema?

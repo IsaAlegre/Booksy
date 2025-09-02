@@ -6,7 +6,6 @@ import  books  from "../data/books1.json";
 export default function BookDetail() {
   const { id } = useParams();
 
-  // Buscar el libro en el array (id de la URL es string, lo pasamos a number)
   const book = books.find((b) => b.id === parseInt(id));
 
   // Si no se encuentra el libro

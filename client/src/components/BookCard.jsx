@@ -19,7 +19,6 @@ export default function BookCard({ book }) {
         <p className="text-gray-500 text-sm">{book.author}</p>
         <Link 
           to={`/book/${book.id}`}
-            // 6. Usar aria-label para accesibilidad.
           aria-label={`Ver detalles de ${book.title}`}
           className="mt-4 self-start text-purple-700 font-semibold hover:text-purple-900 transition-colors duration-300"
           >

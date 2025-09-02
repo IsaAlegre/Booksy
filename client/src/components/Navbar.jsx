@@ -12,7 +12,7 @@ export default function Navbar({ onSearch }) {
         onSubmit={handleSubmit}
         className="flex flex-1 max-w-4xl mx-auto gap-3 items-center"
       >
-        {/* Input con icono */}
+
         <div className="flex items-center flex-1 bg-[#f3ede7] rounded-full px-4 py-2 shadow-inner">
           <svg
             className="w-6 h-6 text-gray-400 mr-3"
