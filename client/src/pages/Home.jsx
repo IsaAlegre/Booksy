@@ -6,8 +6,6 @@ import books1 from "../data/books1.json";
 
 export default function Home() {
 
-
-
 return (
     <MainLayout>
       <section aria-labelledby="seccion-title" data-testid="recomendations-section">
