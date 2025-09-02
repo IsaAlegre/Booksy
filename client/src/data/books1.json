@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "Orgullo y Prejuicio",
+    "author": "Jane Austen",
+    "image": "/img/libro1.jpg",
+    "description": "Publicada en 1813, esta obra maestra de Jane Austen explora con ingenio y sensibilidad las tensiones sociales y emocionales de la Inglaterra georgiana. A través de la relación entre Elizabeth Bennet, una joven inteligente y decidida, y el enigmático señor Darcy, la novela cuestiona los prejuicios de clase, los matrimonios por conveniencia y las apariencias sociales. Con un estilo irónico y una profunda observación del comportamiento humano, Austen ofrece una historia que combina romance, humor y crítica social, convirtiéndose en uno de los clásicos más influyentes de la literatura universal.",
+    "rating": 4.5
+  },
+  {
+    "id": 2,
+    "title": "IT",
+    "author": "Stephen King",
+    "image": "/img/libro2.jpg",
+    "description": "En el pequeño pueblo de Derry, Maine, una fuerza maligna despierta cada 27 años para alimentarse del miedo de los niños. Un grupo de amigos, unidos por la infancia y marcados por experiencias traumáticas, deberá enfrentarse a una criatura que adopta la forma de los peores temores de sus víctimas, con su rostro más aterrador: el payaso Pennywise. ‘IT’ no es solo una novela de terror, sino también un relato sobre la memoria, la pérdida de la inocencia y el poder de la amistad para luchar contra la oscuridad, incluso cuando esta parece invencible.",
+    "rating": 4.8
+  },
+  {
+    "id": 3,
+    "title": "Harry Potter",
+    "author": "J.K. Rowling",
+    "image": "/img/libro3.jpg",
+    "description": "La saga de Harry Potter narra la historia de un niño huérfano que, en su undécimo cumpleaños, descubre que es un mago y recibe la invitación para estudiar en el Colegio Hogwarts de Magia y Hechicería. Allí entabla amistades inquebrantables, descubre misterios ocultos y se enfrenta a desafíos que pondrán a prueba su valor y le revelarán su verdadero destino: enfrentarse al mago oscuro Lord Voldemort. Con una mezcla única de fantasía, aventura y valores universales como la amistad y la valentía, esta saga marcó un antes y un después en la literatura juvenil moderna.",
+    "rating": 4.9
+  },
+  {
+    "id": 4,
+    "title": "La vida invisible de Addie LaRue",
+    "author": "V.E. Schwab",
+    "image": "/img/libro6.jpeg",
+    "description": "Francia, 1714. Una joven desesperada por escapar de un matrimonio forzado hace un pacto con la oscuridad: vivirá para siempre, pero todos la olvidarán. A lo largo de los siglos, Addie LaRue recorre el mundo sin dejar huellas, hasta que en una librería de Nueva York conoce a un joven que, por primera vez en 300 años, recuerda su nombre. Una historia poética, mágica y profundamente melancólica sobre el arte, la memoria, la libertad y el deseo de ser recordado.",
+    "rating": 4.7
+  },
+  {
+    "id": 5,
+    "title": "Cementerio de animales",
+    "author": "Stephen King",
+    "image": "/img/libro5.jpg",
+    "description": "Cuando Louis Creed se muda con su familia a una tranquila casa en Maine, descubre cerca de su nuevo hogar un cementerio de mascotas con una oscura historia. Más allá de ese lugar, se oculta un antiguo poder que desafía las leyes de la vida y la muerte. Pronto, Louis deberá enfrentarse a decisiones imposibles cuando la tragedia golpee a su familia. Una de las novelas más inquietantes de Stephen King, que explora el dolor, la pérdida y los peligros de desafiar lo inevitable.",
+    "rating": 4.6
+  },
+  {
+    "id": 6,
+    "title": "Los juegos del hambre",
+    "author": "Suzanne Collins",
+    "image": "/img/libro4.jpg",
+    "description": "En un futuro distópico, la nación de Panem obliga a cada distrito a enviar un tributo masculino y uno femenino para participar en los Juegos del Hambre: un reality show televisado donde solo puede sobrevivir uno. Katniss Everdeen, una joven del Distrito 12, se convierte en un símbolo de resistencia cuando decide luchar no solo por su vida, sino también contra la opresión del Capitolio. Una historia intensa de supervivencia, poder, sacrificio y esperanza que marcó a toda una generación de lectores.",
+    "rating": 4.8
+  }
+]
