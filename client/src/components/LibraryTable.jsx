@@ -9,9 +9,9 @@ export default function LibraryTable({ books }) {
     <table className="table-auto border-collapse border border-gray-300 w-full">
       <thead>
         <tr className="bg-gray-200">
-          <th scope="row" className="border border-gray-300 px-4 py-2">Título</th>
-          <th scope="row" className="border border-gray-300 px-4 py-2">Autor</th>
-          <th scope="row" className="border border-gray-300 px-4 py-2">Fecha guardado</th>
+          <th scope="col" className="border border-gray-300 px-4 py-2">Título</th>
+          <th scope="col" className="border border-gray-300 px-4 py-2">Autor</th>
+          <th scope="col" className="border border-gray-300 px-4 py-2">Fecha guardado</th>
         </tr>
       </thead>
       <tbody>
