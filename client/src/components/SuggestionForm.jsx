@@ -7,6 +7,7 @@ export default function SuggestionForm() {
     genre: "",
     suggestion: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,18 +17,26 @@ export default function SuggestionForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Sugerencia enviada:", formData);
+    setLoading(true);
 
-    // Resetea el formulario después de enviar
-    setFormData({
-      title: "",
-      author: "",
-      genre: "",
-      suggestion: "",
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+       console.log("Sugerencia enviada:", formData);
+       setFormData({
+        title: "",
+        author: "",
+        genre: "",
+        suggestion: "",
     });
+    } catch (err) {
+      console.error("Error al enviar la sugerencia:", err);
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <section
       aria-labelledby="form-title"
@@ -59,6 +68,7 @@ export default function SuggestionForm() {
             required
             className="w-full mt-1 p-3 border rounded-lg focus:ring focus:ring-purple-300"
             placeholder="Ej: El Señor de los Anillos"
+            disabled={loading}
           />
         </div>
 
@@ -75,6 +85,7 @@ export default function SuggestionForm() {
             required
             className="w-full mt-1 p-3 border rounded-lg focus:ring focus:ring-purple-300"
             placeholder="Ej: J.R.R. Tolkien"
+            disabled={loading}
           />
         </div>
 
@@ -90,6 +101,7 @@ export default function SuggestionForm() {
             required
             className="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-purple-300"
             placeholder="Ej: Fantasía"
+            disabled={loading}
           />
         </div>
 
@@ -104,6 +116,7 @@ export default function SuggestionForm() {
             rows="3"
             className="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-purple-300"
             placeholder="Escribe tus sugerencias..."
+            disabled={loading}
           />
         </div>
 
@@ -111,9 +124,11 @@ export default function SuggestionForm() {
         <div className="flex justify-end">
           <button
           type="submit"
-          className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition"
-        >
-          Enviar sugerencia
+          disabled={loading}
+          className={`w-full py-2 px-4 rounded-lg transition 
+              ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700 text-white"}`}
+          >
+            {loading ? "Enviando..." : "Enviar sugerencia"}
           </button>
         </div>
       </form>
