@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import BookDetailCard from "../components/BookDetail/BookDetailCard";
 import  books  from "../data/books1.json";
+import ErrorBoundary from "../components/Error/ErrorBoundary";
 
 export default function BookDetail() {
   const { id } = useParams();
@@ -22,7 +23,9 @@ export default function BookDetail() {
   return (
     <MainLayout>
       <main className="w-full min-h-screen p-6">
-        <BookDetailCard book={book} />
+        <ErrorBoundary>
+          <BookDetailCard book={book} />
+        </ErrorBoundary>
       </main>
     </MainLayout>
   );
