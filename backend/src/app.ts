@@ -1,21 +1,44 @@
-import express from 'express';
-import morgan from 'morgan';
-import cors from 'cors';
-import { AppDataSource } from './config/data_source.js';
-import routes from "./routes.js";
-import { errorHandler } from './middleware/errorHandle.js';
+import "reflect-metadata";
+import "dotenv/config";
+import express from "express";
+import { AppDataSource } from "./config/data_source";
+import routes from "./routes";
+import { errorHandler } from "./middleware/errorHandle";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.use(express.json());
-AppDataSource.initialize()
-  .then(() => {
-    console.log("📦 Database connected");
-    app.use("/api", routes);
-    app.use(errorHandler);
-    app.listen(3000, () => {
-      console.log("🚀 Server running on http://localhost:3000");
+app.use("/api", routes);
+app.use(errorHandler);
+
+async function startServer() {
+  try {
+    console.log("🔄 Initializing Data Source...");
+    await AppDataSource.initialize();
+    console.log("✅ Data Source has been initialized!");
+    
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running on port ${PORT}`);
     });
-  })
-  .catch((err) => {
-    console.error("❌ Error during Data Source initialization:", err);
-  });
+  } catch (error) {
+    console.error("❌ Error during Data Source initialization:");
+    console.error("Error message:", (error as any)?.message || "Unknown error");
+    console.error("Error stack:", (error as any)?.stack || "No stack trace");
+    console.error("Full error object:", JSON.stringify(error, null, 2));
+    process.exit(1);
+  }
+}
+
+// Add global error handlers
+process.on('uncaughtException', (error) => {
+  console.error('🚨 Uncaught Exception:', error);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('🚨 Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(1);
+});
+
+startServer();
