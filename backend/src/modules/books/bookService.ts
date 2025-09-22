@@ -1,36 +1,38 @@
-import { AppDataSource } from "../../config/data_source.js";
-import { Book } from "./bookEntity.js";
+import { AppDataSource } from "../../config/data_source";
+import { Book } from "./bookEntity";
+import type { Repository } from "typeorm";
 
 export class BookService {
-  private bookRepo = AppDataSource.getRepository(Book);
-
+  private get BookRepo(): Repository<Book>{
+    return AppDataSource.getRepository(Book);
+  }
   async getAll() {
-    return await this.bookRepo.find();
+    return await this.BookRepo.find();
   }
 
   async getById(id: number) {
-    return await this.bookRepo.findOneBy({ id });
+    return await this.BookRepo.findOneBy({ id });
   }
 
   search(query: string) {
-    return this.bookRepo
+    return this.BookRepo
       .createQueryBuilder("book")
       .where("book.title ILIKE :q OR book.author ILIKE :q OR book.genre ILIKE :q OR book.isbn ILIKE :q", { q: `%${query}%` })
       .getMany();
   }
 
   async create(data: Partial<Book>) {
-    const book = this.bookRepo.create(data);
-    return await this.bookRepo.save(book);
+    const book = this.BookRepo.create(data);
+    return await this.BookRepo.save(book);
   }
 
   async update(id: number, data: Partial<Book>) {
-    await this.bookRepo.update(id, data);
+    await this.BookRepo.update(id, data);
     return await this.getById(id);
   }
 
   async delete(id: number) {
-    return await this.bookRepo.delete(id);
+    return await this.BookRepo.delete(id);
   }
 }
 
