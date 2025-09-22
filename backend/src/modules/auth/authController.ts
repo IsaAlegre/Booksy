@@ -1,0 +1,43 @@
+import type { Request, Response, NextFunction } from "express";
+import { register, login } from "./authService";
+import { plainToInstance } from "class-transformer";
+import { validate } from "class-validator";
+import { RegisterUserDto } from "./dtos/register-user.dto";
+import { LoginUserDto } from "./dtos/login-user.dto";
+
+export async function handleRegister(req: Request, res: Response, next: NextFunction) {
+  try {
+    // 1. Convierte el objeto plano (req.body) a una instancia de nuestro DTO
+    const registerDto = plainToInstance(RegisterUserDto, req.body);
+
+    // 2. Valida la instancia del DTO
+    const errors = await validate(registerDto);
+
+    // 3. Si hay errores, devuelve una respuesta 400
+    if (errors.length > 0) {
+      return res.status(400).json({ message: "Validation failed", errors });
+    }
+
+    // 4. Si todo está bien, llama al servicio con el DTO validado
+    const newUser = await register(registerDto);
+    res.status(201).json(newUser);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function handleLogin(req: Request, res: Response, next: NextFunction) {
+  try {
+    const loginDto = plainToInstance(LoginUserDto, req.body);
+    const errors = await validate(loginDto);
+
+    if (errors.length > 0) {
+      return res.status(400).json({ message: "Validation failed", errors });
+    }
+
+    const result = await login(loginDto);
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+}

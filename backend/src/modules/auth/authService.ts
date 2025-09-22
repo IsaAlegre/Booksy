@@ -1,0 +1,58 @@
+import { AppDataSource } from "../../config/data_source";
+import { User } from "../users/userEntity";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import { RegisterUserDto } from "./dtos/register-user.dto"; // Importa los DTOs
+import { LoginUserDto } from "./dtos/login-user.dto";
+
+
+// Ahora el servicio recibe un DTO validado
+export async function register(registerDto: RegisterUserDto) {
+    const userRepo = AppDataSource.getRepository(User);
+    const { username, email, password } = registerDto;
+    const existingUser = await userRepo.findOne({ where: [{ username }, { email }]});
+    if (existingUser) {
+        // Lanza un error claro que puedes manejar en el controlador.
+        throw new Error("Username or email already exists");
+        }
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = userRepo.create({ username, email, password: hashedPassword });
+        await userRepo.save(newUser);
+
+        const { password: _, ...userWithoutPassword } = newUser;
+        return userWithoutPassword;
+}
+
+// También aquí
+export async function login(loginDto: LoginUserDto) {
+  const userRepo = AppDataSource.getRepository(User);
+  const { username, password } = loginDto;
+  const user = await userRepo.findOneBy({ username });
+  if (!user) {
+    throw new Error("Invalid credentials");
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    throw new Error("Invalid credentials");
+  }
+
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    // Este error detendrá la ejecución y te alertará de una mala configuración.
+    throw new Error("FATAL: JWT_SECRET is not configured in the environment.");
+  }
+
+  const token = jwt.sign(
+    { userId: user.id, username: user.username },
+    jwtSecret,
+    { expiresIn: "1h" }
+  );
+
+  return { token, userId: user.id, username: user.username };
+}
+
+
