@@ -1,6 +1,6 @@
 // src/modules/books/book.routes.ts
 import { Router } from "express";
-import { bookController } from "./bookController.js";
+import { bookController } from "./bookController";
 
 const router = Router();
 
