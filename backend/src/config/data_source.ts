@@ -1,11 +1,12 @@
-import "reflect-metadata";
+//import "reflect-metadata";
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
-import { fileURLToPath } from "url";
-import { dirname} from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { User } from "../modules/users/userEntity";
+import { Book } from "../modules/books/bookEntity";
+import { Review } from "../modules/reviews/reviewEntity";
+import { Library } from "../modules/libraries/libraryEntity";
+
 
 dotenv.config();
 
@@ -18,5 +19,5 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME  as string,
     synchronize: true,
     logging: false,
-    entities: [__dirname + "/../modules/**/*Entity.{ts,js}"],
+    entities: [User, Book, Review, Library],
 });
