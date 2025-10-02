@@ -1,91 +1,50 @@
 import { AppDataSource } from "../../config/data_source";
 import { Library, LibraryStatus } from "./libraryEntity";
-import { NotFoundError } from "../../errors/NotFoundErrors";
 import { User } from "../users/userEntity";
-import type { Repository } from "typeorm";
+import { Book } from "../books/bookEntity";
 
 export class LibraryService {
-  private get libraryRepo(): Repository<Library> {
-    return AppDataSource.getRepository(Library);
-  }
+  private libraryRepo = AppDataSource.getRepository(Library);
+  private userRepo = AppDataSource.getRepository(User);
+  private bookRepo = AppDataSource.getRepository(Book);
 
-  private get userRepo(): Repository<User> {
-    return AppDataSource.getRepository(User);
-  }
-
-  /**
-   * Obtiene todos los libros de la biblioteca de un usuario específico.
-   */
-  async getUserLibrary(userId: number) {
-    const user = await this.userRepo.findOneBy({ id: userId });
-    if (!user) {
-      throw new NotFoundError("User not found");
-    }
-    const libraryEntries = await this.libraryRepo.find({
+  async getUserLibrary(userId: number): Promise<Library[]> {
+    return this.libraryRepo.find({
       where: { user: { id: userId } },
-      relations: ["book"], // Carga la información completa del libro asociado
+      relations: ["book"], // Carga la información del libro relacionado
     });
-
-    return{
-        userId: user.id,
-        username: user.username,
-        library: libraryEntries
-    }
   }
 
-  /**
-   * Agrega un libro a la biblioteca de un usuario o actualiza su estado si ya existe.
-   */
-  async addBookToLibrary(userId: number, bookId: number, status: LibraryStatus) {
-    const existingEntry = await this.libraryRepo.findOne({
-        where: { user: { id: userId }, book: { id: bookId } }
-    });
+  async addBookToLibrary(userId: number, bookId: number, status: LibraryStatus): Promise<Library> {
+    const user = await this.userRepo.findOneBy({ id: userId });
+    if (!user) throw new Error("User not found");
 
+    const book = await this.bookRepo.findOneBy({ id: bookId });
+    if (!book) throw new Error("Book not found");
+
+    const existingEntry = await this.libraryRepo.findOne({ where: { user: { id: userId }, book: { id: bookId } } });
     if (existingEntry) {
-        // Si el libro ya está en la biblioteca, actualiza su estado
-        existingEntry.status = status;
-        return await this.libraryRepo.save(existingEntry);
+      existingEntry.status = status;
+      return this.libraryRepo.save(existingEntry);
     }
 
-    // Si no existe, crea una nueva entrada
-    const newEntry = this.libraryRepo.create({
-      user: { id: userId },
-      book: { id: bookId },
-      status,
-    });
-    return await this.libraryRepo.save(newEntry);
+    const newEntry = this.libraryRepo.create({ user, book, status });
+    return this.libraryRepo.save(newEntry);
   }
 
-  /**
-   * Actualiza el estado de un libro que ya está en la biblioteca.
-   */
-  async updateBookStatus(userId: number, bookId: number, status: LibraryStatus) {
-    const entry = await this.libraryRepo.findOneBy({
-      user: { id: userId },
-      book: { id: bookId },
-    });
-
-    if (!entry) {
-      throw new NotFoundError("Book not found in this user's library");
-    }
+  async updateBookStatus(userId: number, bookId: number, status: LibraryStatus): Promise<Library> {
+    const entry = await this.libraryRepo.findOne({ where: { user: { id: userId }, book: { id: bookId } } });
+    if (!entry) throw new Error("Book not found in user's library");
 
     entry.status = status;
-    return await this.libraryRepo.save(entry);
+    return this.libraryRepo.save(entry);
   }
 
-  /**
-   * Elimina un libro de la biblioteca de un usuario.
-   */
-  async removeBookFromLibrary(userId: number, bookId: number) {
-    const result = await this.libraryRepo.delete({
-      user: { id: userId },
-      book: { id: bookId },
-    });
+  async removeBookFromLibrary(userId: number, bookId: number): Promise<void> {
+    const entry = await this.libraryRepo.findOne({ where: { user: { id: userId }, book: { id: bookId } } });
+    if (!entry) throw new Error("Book not found in user's library");
 
-    if (result.affected === 0) {
-      throw new NotFoundError("Book not found in this user's library");
-    }
-    return { message: "Book removed from library successfully" };
+    await this.libraryRepo.remove(entry);
   }
 }
 
