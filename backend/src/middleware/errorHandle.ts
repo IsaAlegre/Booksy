@@ -1,6 +1,6 @@
 // src/middleware/errorHandler.ts
 import type { Request, Response, NextFunction } from "express";
-import { NotFoundError } from "../errors/NotFoundErrors.js";
+import { NotFoundError } from "../errors/NotFoundErrors";
 
 export function errorHandler(
   err: Error,
