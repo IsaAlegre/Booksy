@@ -15,15 +15,12 @@ export async function register(registerDto: RegisterUserDto) {
     if (existingUser) {
         // Lanza un error claro que puedes manejar en el controlador.
         throw new Error("Username or email already exists");
-        }
-        
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const newUser = userRepo.create({ username, email, password: hashedPassword });
-        await userRepo.save(newUser);
-
-        const { password: _, ...userWithoutPassword } = newUser;
-        return userWithoutPassword;
+      }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = userRepo.create({ username, email, password: hashedPassword });
+    await userRepo.save(newUser);
+    const { password: _, ...userWithoutPassword } = newUser;
+    return userWithoutPassword;
 }
 
 // También aquí
@@ -47,7 +44,7 @@ export async function login(loginDto: LoginUserDto) {
   }
 
   const token = jwt.sign(
-    { userId: user.id, username: user.username },
+    { userId: user.id, username: user.username, role: user.role }, 
     jwtSecret,
     { expiresIn: "1h" }
   );
