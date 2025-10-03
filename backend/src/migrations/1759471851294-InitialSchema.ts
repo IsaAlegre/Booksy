@@ -4,6 +4,8 @@ export class InitialSchema1759471851294 implements MigrationInterface {
     name = 'InitialSchema1759471851294'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`CREATE TYPE "public"."users_role_enum" AS ENUM('admin', 'user')`);
+        await queryRunner.query(`CREATE TYPE "public"."libraries_status_enum" AS ENUM('to-read', 'reading', 'read')`);
         await queryRunner.query(`CREATE TABLE "users" ("id" SERIAL NOT NULL, "username" character varying NOT NULL, "email" character varying NOT NULL, "password" character varying NOT NULL, "role" "public"."users_role_enum" NOT NULL DEFAULT 'user', CONSTRAINT "UQ_fe0bb3f6520ee0469504521e710" UNIQUE ("username"), CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "UQ_450a05c0c4de5b75ac8d34835b9" UNIQUE ("password"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "books" ("id" SERIAL NOT NULL, "title" character varying NOT NULL, "author" character varying NOT NULL, "genre" character varying, "year" integer, "pages" integer, "description" character varying, "coverUrl" character varying, CONSTRAINT "PK_f3f2f25a099d24e12545b70b022" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "reviews" ("id" SERIAL NOT NULL, "comment" text, "rating" integer, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "userId" integer, "bookId" integer, CONSTRAINT "PK_231ae565c273ee700b283f15c1d" PRIMARY KEY ("id"))`);
@@ -27,6 +29,8 @@ export class InitialSchema1759471851294 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE "reviews"`);
         await queryRunner.query(`DROP TABLE "books"`);
         await queryRunner.query(`DROP TABLE "users"`);
+        await queryRunner.query(`DROP TYPE "public"."libraries_status_enum"`);
+        await queryRunner.query(`DROP TYPE "public"."users_role_enum"`);
     }
 
 }
