@@ -1,7 +1,7 @@
 import { Router } from "express";
-import SuggestionController from "./suggestionController";
-import { authMiddleware } from "../../middleware/authMiddleware";
-import { adminMiddleware } from "../../middleware/adminMiddleware";
+import SuggestionController from "./suggestionController.js";
+import { authMiddleware } from "../../middleware/authMiddleware.js";
+import { adminMiddleware } from "../../middleware/adminMiddleware.js";
 
 const router = Router();
 

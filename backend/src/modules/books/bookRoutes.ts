@@ -1,9 +1,9 @@
 // src/modules/books/book.routes.ts
 import { Router } from "express";
-import { bookController } from "./bookController";
-import { authMiddleware } from "../../middleware/authMiddleware";
-import { adminMiddleware } from "../../middleware/adminMiddleware";
-import reviewRoutes from "../reviews/reviewRoutes";
+import { bookController } from "./bookController.js";
+import { authMiddleware } from "../../middleware/authMiddleware.js";
+import { adminMiddleware } from "../../middleware/adminMiddleware.js";
+import reviewRoutes from "../reviews/reviewRoutes.js";
 
 const router = Router();
 

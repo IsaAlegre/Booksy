@@ -1,6 +1,6 @@
 // src/modules/books/bookController.ts
 import type { Request, Response, NextFunction } from "express";
-import { bookService } from "./bookService";
+import { bookService } from "./bookService.js";
 
 export class BookController {
   async getAll(req: Request, res: Response, next: NextFunction) {
