@@ -1,7 +1,7 @@
-import { AppDataSource } from "../../config/data_source";
-import { Library, LibraryStatus } from "./libraryEntity";
-import { User } from "../users/userEntity";
-import { Book } from "../books/bookEntity";
+import { AppDataSource } from "../../config/data_source.js";
+import { Library, LibraryStatus } from "./libraryEntity.js";
+import { User } from "../users/userEntity.js";
+import { Book } from "../books/bookEntity.js";
 
 export class LibraryService {
   private libraryRepo = AppDataSource.getRepository(Library);

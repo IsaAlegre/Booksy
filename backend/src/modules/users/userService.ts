@@ -1,5 +1,5 @@
-import { AppDataSource } from "../../config/data_source";
-import { User } from "./userEntity";
+import { AppDataSource } from "../../config/data_source.js";
+import { User } from "./userEntity.js";
 import type { Repository } from "typeorm";
 import { ILike } from "typeorm";
 

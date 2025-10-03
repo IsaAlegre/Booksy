@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm"; // Importar la entidad Library
-import type { Library } from "../libraries/libraryEntity"; // Importar la entidad Library
-import type { Review } from "../reviews/reviewEntity";
+import type { Library } from "../libraries/libraryEntity.js"; // Importar la entidad Library
+import type { Review } from "../reviews/reviewEntity.js";
 
 export enum UserRole {
   ADMIN = "admin",

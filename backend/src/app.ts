@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import "dotenv/config";
 import express from "express";
-import { AppDataSource } from "./config/data_source";
-import routes from "./routes";
-import { errorHandler } from "./middleware/errorHandle";
+import { AppDataSource } from "./config/data_source.js";
+import routes from "./routes.js";
+import { errorHandler } from "./middleware/errorHandle.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;

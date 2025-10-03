@@ -1,10 +1,10 @@
-import { AppDataSource } from "../../config/data_source";
-import { User } from "../users/userEntity";
+import { AppDataSource } from "../../config/data_source.js";
+import { User } from "../users/userEntity.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import { RegisterUserDto } from "./dtos/register-user.dto"; // Importa los DTOs
-import { LoginUserDto } from "./dtos/login-user.dto";
+import { RegisterUserDto } from "./dtos/register-user.dto.js"; // Importa los DTOs
+import { LoginUserDto } from "./dtos/login-user.dto.js";
 
 
 // Ahora el servicio recibe un DTO validado

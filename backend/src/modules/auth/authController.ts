@@ -1,9 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
-import { register, login } from "./authService";
+import { register, login } from "./authService.js";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
-import { RegisterUserDto } from "./dtos/register-user.dto";
-import { LoginUserDto } from "./dtos/login-user.dto";
+import { RegisterUserDto } from "./dtos/register-user.dto.js";
+import { LoginUserDto } from "./dtos/login-user.dto.js";
 
 export async function handleRegister(req: Request, res: Response, next: NextFunction) {
   try {
