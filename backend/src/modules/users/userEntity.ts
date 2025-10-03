@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
-import { Library } from "../libraries/libraryEntity"; // Importar la entidad Library
-import { Review } from "../reviews/reviewEntity"; 
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm"; // Importar la entidad Library
+import type { Library } from "../libraries/libraryEntity"; // Importar la entidad Library
+import type { Review } from "../reviews/reviewEntity";
 
 export enum UserRole {
   ADMIN = "admin",
@@ -28,10 +28,10 @@ export class User {
   })
   role!: UserRole;
 
-  @OneToMany(() => Library, (library) => library.user)
+  @OneToMany("Library", (library: Library) => library.user)
   libraryEntries!: Library[];
   
-  @OneToMany(() => Review, (review) => review.user)
+  @OneToMany("Review", (review:Review) => review.user)
   reviews!: Review[];
 
 }

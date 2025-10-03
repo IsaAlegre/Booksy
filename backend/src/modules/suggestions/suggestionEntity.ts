@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, JoinColumn } from "typeorm";
-import { User } from "../users/userEntity";
+import type { User } from "../users/userEntity.js";
 
 @Entity("suggestions")
 export class Suggestion {
@@ -18,7 +18,7 @@ export class Suggestion {
   @Column({ type: "text", nullable: true })
   suggestion?: string;
 
-  @ManyToOne(() => User, (user) => user.id, { nullable: true, onDelete: "SET NULL" })
+  @ManyToOne("User", (user:User) => user.id, { nullable: true, onDelete: "SET NULL" })
   @JoinColumn({ name: "userId" })
   user?: User;
 

@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm";
-import { Library } from "../libraries/libraryEntity";
-import { Review } from "../reviews/reviewEntity";
+import type { Library } from "../libraries/libraryEntity.js";
+import type { Review } from "../reviews/reviewEntity.js";
 
 @Entity("books")
 export class Book {
@@ -28,9 +28,9 @@ export class Book {
   @Column({ nullable: true, type: "varchar" })
   coverUrl?: string;
 
-  @OneToMany(() => Library, (library) => library.book)
+  @OneToMany("Library", (library: Library) => library.book)
   libraryEntries!: Library[];
 
-  @OneToMany(() => Review, (review) => review.book)
+  @OneToMany("Review", (review:Review) => review.book)
   reviews!: Review[];
 }
