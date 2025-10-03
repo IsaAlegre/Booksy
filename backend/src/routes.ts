@@ -1,9 +1,10 @@
 // src/routes.ts
 import { Router } from "express";
 import bookRoutes from "./modules/books/bookRoutes";
-import userRoutes from "./modules/users/userRoutes"; // 1. Importar rutas de usuario
-import authRoutes from "./modules/auth/authRoutes"; // Importar rutas de autenticación
-import reviewRoutes from "./modules/reviews/reviewRoutes"; // Importar rutas de reseñas
+import userRoutes from "./modules/users/userRoutes"; // 1.
+import authRoutes from "./modules/auth/authRoutes"; // 
+import reviewRoutes from "./modules/reviews/reviewRoutes";
+import suggestionRoutes from "./modules/suggestions/suggestionRoutes"; // 2.
 
 const router = Router();
 
@@ -12,5 +13,6 @@ router.use("/auth", authRoutes);
 router.use("/books", bookRoutes);
 router.use("/users", userRoutes); 
 router.use("/reviews", reviewRoutes); // Rutas de reseñas
+router.use("/suggestions", suggestionRoutes); // Rutas de sugerencias
 
 export default router;
