@@ -48,8 +48,8 @@ export async function login(loginDto: LoginUserDto) {
     jwtSecret,
     { expiresIn: "1h" }
   );
-
-  return { token, userId: user.id, username: user.username };
+  const { password: _, ...safeUser } = user as any
+  return { token, user: safeUser };
 }
 
 
