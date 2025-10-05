@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import "dotenv/config";
 import cors from "cors";
+import path from "path";
 import express from "express";
 import { AppDataSource } from "./config/data_source.js";
 import routes from "./routes.js";
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use("/api", routes);
 app.use(errorHandler);
+app.use('/img', express.static(path.join(__dirname, '..', 'public', 'img')));
 
 async function startServer() {
   try {

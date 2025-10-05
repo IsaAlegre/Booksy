@@ -7,8 +7,17 @@ export class BookController {
     try {
       console.log("Intentando obtener todos los libros...");
       const books = await bookService.getAll();
-      console.log("Libros obtenidos:", books.length);
-      res.json(books);
+      const backendUrl = (process.env.BACKEND_URL?.replace(/\/$/, '')) ?? `${req.protocol}://${req.get('host')}`;
+
+      // Mapea coverUrl relativo -> absoluto
+      const mapped = books.map(b => ({
+        ...b,
+        coverUrl: b.coverUrl
+          ? (b.coverUrl.startsWith('http') ? b.coverUrl : `${backendUrl}${b.coverUrl}`)
+          : null
+      }));
+
+      res.json(mapped);
     } catch (error) {
       next(error);
     }
@@ -27,7 +36,12 @@ export class BookController {
         return res.status(404).json({ message: "Book not found" });
       }
       console.log(`Libro encontrado (ID: ${id}):`, book);
-      res.json(book);
+      const backendUrl = (process.env.BACKEND_URL?.replace(/\/$/, '')) ?? `${req.protocol}://${req.get('host')}`;
+      const fullCover = book.coverUrl
+        ? (book.coverUrl.startsWith('http') ? book.coverUrl : `${backendUrl}${book.coverUrl}`)
+        : null;
+
+      res.json({ ...book, coverUrl: fullCover });
     } catch (error) {
       next(error);
     }
@@ -37,8 +51,13 @@ export class BookController {
     try {
       console.log("Datos recibidos para crear un nuevo libro:", req.body);
       const newBook = await bookService.create(req.body);
+      const backendUrl = (process.env.BACKEND_URL?.replace(/\/$/, '')) ?? `${req.protocol}://${req.get('host')}`;
+      const fullCover = newBook.coverUrl
+        ? (newBook.coverUrl.startsWith('http') ? newBook.coverUrl : `${backendUrl}${newBook.coverUrl}`)
+        : null;
+
+      res.status(201).json({ ...newBook, coverUrl: fullCover });
       console.log("Libro creado exitosamente:", newBook);
-      res.status(201).json(newBook);
     } catch (error) {
       next(error);
     }
