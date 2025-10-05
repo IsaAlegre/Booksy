@@ -4,6 +4,7 @@ import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import { RegisterUserDto } from "./dtos/register-user.dto.js";
 import { LoginUserDto } from "./dtos/login-user.dto.js";
+import { userService } from "../users/userService.js";
 
 export async function handleRegister(req: Request, res: Response, next: NextFunction) {
   try {
@@ -37,6 +38,24 @@ export async function handleLogin(req: Request, res: Response, next: NextFunctio
 
     const result = await login(loginDto);
     res.json(result);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function handleMe(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userPayload = (req as any).user;
+    const userId = userPayload?.userId ?? userPayload?.userId;
+    if (!userId) return res.status(401).json({ message: "No autorizado" });
+
+    const user = await userService.findById(Number(userId));
+    if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+    // eliminar campos sensibles
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...safeUser } = user as any;
+    return res.json(safeUser);
   } catch (error) {
     next(error);
   }
