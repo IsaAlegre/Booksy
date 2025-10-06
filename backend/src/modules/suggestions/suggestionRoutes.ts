@@ -6,7 +6,7 @@ import { adminMiddleware } from "../../middleware/adminMiddleware.js";
 const router = Router();
 
 // cualquier usuario autenticado o anónimo puede enviar
-router.post("/", authMiddleware, SuggestionController.create);
+router.post("/",  SuggestionController.create);
 
 // admin puede ver todas las sugerencias
 router.get("/", authMiddleware, adminMiddleware, SuggestionController.list);
