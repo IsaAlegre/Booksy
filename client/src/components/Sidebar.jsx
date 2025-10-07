@@ -4,33 +4,41 @@ import { Link } from "react-router-dom";
 import { PiUserCircleFill } from "react-icons/pi";
 import { TiThMenu } from "react-icons/ti";
 
-export default function Sidebar({ children }) {
+export default function Sidebar({ children, toggleSidebar }) {
+  const handleLinkClick = () => {
+    if (window.innerWidth < 768) {
+      toggleSidebar();
+    }
+  };
+
   return (
-    <aside className="group w-20 hover:w-30 md:w-24 md:hover:w-45 bg-[#e6ded5] h-screen flex flex-col items-center py-6 transition-all duration-300">
+    <nav className="h-full w-20 md:w-24 md:hover:w-48 bg-[#647c90] flex flex-col items-center py-6 transition-all duration-300 justify-between">
       
-      <div className="flex flex-col gap-6 items-start ml-15 w-full ">
-          <Link 
-            to="/" 
-            className="flex items-center gap-4 hover:text-purple-600 transition-all mb-5 group">
+      <div className="flex flex-col gap-6 items-start px-4 w-full ">
+          <div className="flex items-center gap-4 mb-5">
             <TbBooks size={35} />
             <span className="opacity-0 group-hover:opacity-100 transition-opacity">
               Booksy
             </span>
-          </Link>
-
-
-        <button className="flex items-center gap-4 hover:text-purple-600 transition-all">
+          </div>
+        
+        {/* Menú de navegación */}
+        <Link 
+            to="/" 
+            onClick={handleLinkClick}
+            className="flex items-center gap-4 hover:text-purple-900 transition-all group">
           <TiThMenu size={28} />
           <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-            Menú
+            Explorar
           </span>
-        </button>
+        </Link>
 
         
           <Link 
             to="/Profile" 
-            className="flex items-center gap-4 hover:text-purple-600 transition-all group">
-            <PiUserCircleFill size={30} />
+            onClick={handleLinkClick}
+            className="flex items-center gap-4 hover:text-purple-900 transition-all group">
+            <PiUserCircleFill size={28} />
             <span className="opacity-0 group-hover:opacity-100 transition-opacity">
               Perfil
             </span>
@@ -40,7 +48,8 @@ export default function Sidebar({ children }) {
        
           <Link 
             to="/SuggestionPage" 
-            className="flex items-center gap-4 hover:text-purple-600 transition-all group">
+            onClick={handleLinkClick}
+            className="flex items-center gap-4 hover:text-purple-900 transition-all group">
             <FiPlus size={28} />
             <span className="opacity-0 group-hover:opacity-100 transition-opacity">
               Agregar
@@ -49,7 +58,7 @@ export default function Sidebar({ children }) {
       </div>
 
       {/* Children opcionales */}
-      <ul className="mt-6 w-full px-4">{children}</ul>
-    </aside>
+      <ul className="w-full px-4">{children}</ul>
+    </nav>
   );
 }
