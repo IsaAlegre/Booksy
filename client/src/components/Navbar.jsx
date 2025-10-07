@@ -4,13 +4,18 @@ import { Link } from "react-router-dom";
 import { TiThMenu } from "react-icons/ti";
 
 export default function Navbar({ query, onSearch, toggleSidebar }) {
-  const { isAuthenticated, user, loading } = useAuth();
+  const { isAuthenticated, user, loading, logout } = useAuth();
 
   const handleChange = (e) => {
     onSearch(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+  };
+
+  const handleLogout = () => {
+    logout(); // Llama a la función del contexto
+    navigate("/"); // Redirige al inicio
   };
 
   return (
@@ -56,10 +61,22 @@ export default function Navbar({ query, onSearch, toggleSidebar }) {
         {!loading && (
           <>
             {isAuthenticated ? (
-              <div className="w-10 h-10 bg-[#647c90] rounded-full flex items-center justify-center text-white font-bold text-lg cursor-pointer">
-                {user?.username?.[0]?.toUpperCase() ?? 'U'}
+              // 4. Si está autenticado, mostrar ícono Y botón de logout
+              <>
+                <div className="flex flex-col-reverse md:flex-row items-center gap-2 md:gap-4">
+                <button
+                  onClick={handleLogout}
+                  className="text-[#647c90] font-extrabold text-sm hover:underline"
+                >
+                  Cerrar Sesión
+                </button>
+                <div className="w-10 h-10 bg-[#647c90] rounded-full flex items-center justify-center text-white font-bold text-lg cursor-pointer">
+                  {user?.username?.[0]?.toUpperCase() ?? 'U'}
+                </div>
               </div>
+              </>
             ) : (
+              // Si no, mostrar el link para Iniciar Sesión
               <Link
                 to="/Login"
                 className="text-[#647c90] font-extrabold text-sm rounded-sm transition-colors duration-200 hover:text-[#175873] hover:underline select-none"
