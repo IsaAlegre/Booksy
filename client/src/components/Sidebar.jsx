@@ -26,7 +26,7 @@ export default function Sidebar({ children, toggleSidebar }) {
         <Link 
             to="/" 
             onClick={handleLinkClick}
-            className="flex items-center gap-4 hover:text-purple-900 transition-all group">
+            className="flex items-center gap-4 hover:text-purple-900 transition-all">
           <TiThMenu size={28} />
           <span className="opacity-0 group-hover:opacity-100 transition-opacity">
             Explorar
@@ -37,7 +37,7 @@ export default function Sidebar({ children, toggleSidebar }) {
           <Link 
             to="/Profile" 
             onClick={handleLinkClick}
-            className="flex items-center gap-4 hover:text-purple-900 transition-all group">
+            className="flex items-center gap-4 hover:text-purple-900 transition-all">
             <PiUserCircleFill size={28} />
             <span className="opacity-0 group-hover:opacity-100 transition-opacity">
               Perfil
@@ -49,7 +49,7 @@ export default function Sidebar({ children, toggleSidebar }) {
           <Link 
             to="/SuggestionPage" 
             onClick={handleLinkClick}
-            className="flex items-center gap-4 hover:text-purple-900 transition-all group">
+            className="flex items-center gap-4 hover:text-purple-900 transition-all">
             <FiPlus size={28} />
             <span className="opacity-0 group-hover:opacity-100 transition-opacity">
               Agregar
