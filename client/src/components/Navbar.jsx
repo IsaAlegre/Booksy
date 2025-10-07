@@ -2,6 +2,7 @@ import SearchResults from "./SearchResults";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import { TiThMenu } from "react-icons/ti";
+import { IoLogOutOutline } from "react-icons/io5"; 
 
 export default function Navbar({ query, onSearch, toggleSidebar }) {
   const { isAuthenticated, user, loading, logout } = useAuth();
@@ -66,9 +67,10 @@ export default function Navbar({ query, onSearch, toggleSidebar }) {
                 <div className="flex flex-col-reverse md:flex-row items-center gap-2 md:gap-4">
                 <button
                   onClick={handleLogout}
-                  className="text-[#647c90] font-extrabold text-sm hover:underline"
+                  className="text-[#647c90] hover:text-red-500"
+                  title="Cerrar Sesión" // Tooltip para accesibilidad
                 >
-                  Cerrar Sesión
+                  <IoLogOutOutline size={28} />
                 </button>
                 <div className="w-10 h-10 bg-[#647c90] rounded-full flex items-center justify-center text-white font-bold text-lg cursor-pointer">
                   {user?.username?.[0]?.toUpperCase() ?? 'U'}
