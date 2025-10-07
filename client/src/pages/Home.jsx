@@ -1,7 +1,7 @@
 import BookCard from "../components/BookCard";
 import apiClient from "../api/axios";
 import { useEffect, useState, useMemo } from "react";
-import {useSearch} from "../context/SearchContext";
+import {useSearch, SearchProvider} from "../context/SearchContext";
 
 export default function Home() {
   const [books, setBooks] = useState([]);
