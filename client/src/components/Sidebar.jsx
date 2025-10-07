@@ -3,8 +3,11 @@ import { TbBooks } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { PiUserCircleFill } from "react-icons/pi";
 import { TiThMenu } from "react-icons/ti";
+import { useAuth } from "../context/AuthContext";
 
 export default function Sidebar({ children, toggleSidebar }) {
+  const { isAuthenticated } = useAuth();
+  
   const handleLinkClick = () => {
     if (window.innerWidth < 768) {
       toggleSidebar();
@@ -35,7 +38,7 @@ export default function Sidebar({ children, toggleSidebar }) {
 
         
           <Link 
-            to="/Profile" 
+            to={isAuthenticated ? "/Profile" : "/Login"}
             onClick={handleLinkClick}
             className="flex items-center gap-4 hover:text-purple-900 transition-all">
             <PiUserCircleFill size={28} />
