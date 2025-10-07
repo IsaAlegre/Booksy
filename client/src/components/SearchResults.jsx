@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import apiClient from "../api/axios";
-import { useSearch } from "../context/SearchContext";
+import { useSearch, SearchProvider } from "../context/SearchContext";
 
 export default function SearchResults() {
   const { debouncedQuery, setQuery } = useSearch();
