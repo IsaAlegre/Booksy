@@ -1,7 +1,7 @@
-import { AppDataSource } from "../../config/data_source";
-import { Suggestion } from "./suggestionEntity";
-import { User } from "../users/userEntity";
-import { NotFoundError } from "../../errors/NotFoundErrors";
+import { AppDataSource } from "../../config/data_source.js";
+import { Suggestion } from "./suggestionEntity.js";
+import { User } from "../users/userEntity.js";
+import { NotFoundError } from "../../errors/NotFoundErrors.js";
 
 export class SuggestionService {
   private repo = AppDataSource.getRepository(Suggestion);

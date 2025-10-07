@@ -1,5 +1,5 @@
-import { AppDataSource } from "../../config/data_source";
-import { Book } from "./bookEntity";
+import { AppDataSource } from "../../config/data_source.js";
+import { Book } from "./bookEntity.js";
 import type { Repository } from "typeorm";
 
 export class BookService {

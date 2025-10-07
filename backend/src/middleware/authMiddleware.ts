@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import type { JwtPayload } from "jsonwebtoken";
-import { UserRole } from "../modules/users/userEntity";
+import { UserRole } from "../modules/users/userEntity.js";
 
 // 1. Definimos la estructura exacta de nuestro payload
 interface CustomJwtPayload extends JwtPayload {

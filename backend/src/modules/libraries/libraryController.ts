@@ -1,9 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
-import { libraryService } from "./libraryService";
-import { LibraryStatus } from "./libraryEntity";
+import { libraryService } from "./libraryService.js";
+import { LibraryStatus } from "./libraryEntity.js";
 
 export class LibraryController {
-  // Este middleware es perfecto. Verifica que el usuario autenticado
   // solo pueda modificar su propia biblioteca. No necesita cambios.
   authorize(req: Request, res: Response, next: NextFunction) {
     const authenticatedUserId = req.user?.userId;
@@ -23,7 +22,6 @@ export class LibraryController {
     next();
   }
 
-  // CORREGIDO: Obtiene el userId de los parámetros de forma segura.
   async getUserLibrary(req: Request, res: Response, next: NextFunction) {
     try {
       // El middleware 'authorize' ya validó que el ID es correcto y pertenece al usuario.
@@ -36,7 +34,7 @@ export class LibraryController {
     }
   }
 
-  // CORREGIDO: Usa el userId de la URL y valida el 'status'.
+  //Usa el userId de la URL y valida el 'status'.
   async addBook(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = parseInt(req.params.userId!, 10);
@@ -56,7 +54,7 @@ export class LibraryController {
     }
   }
 
-  // CORREGIDO: Obtiene bookId de forma segura y valida el 'status'.
+  // Obtiene bookId de forma segura y valida el 'status'.
   async updateStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = parseInt(req.params.userId!, 10);
@@ -84,7 +82,7 @@ export class LibraryController {
     }
   }
 
-  // CORREGIDO: Obtiene bookId de forma segura y devuelve la respuesta correcta.
+  // Obtiene bookId de forma segura y devuelve la respuesta correcta.
   async removeBook(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = parseInt(req.params.userId!, 10);
@@ -99,7 +97,6 @@ export class LibraryController {
       }
 
       await libraryService.removeBookFromLibrary(userId, bookId);
-      // Para un DELETE exitoso, la respuesta estándar es 204 No Content.
       res.status(204).send();
     } catch (error) {
       next(error);

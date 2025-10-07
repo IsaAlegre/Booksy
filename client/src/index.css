@@ -1,10 +1,49 @@
 @import "tailwindcss";
 
-.no-scrollbar::-webkit-scrollbar {
+/*.no-scrollbar::-webkit-scrollbar {
   display: none; 
+}*/
+
+/*.no-scrollbar {
+  -ms-overflow-style: none; 
+}*/
+
+/* Encabezado del formulario */
+.form-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
-.no-scrollbar {
-  -ms-overflow-style: none; /* Oculta la barra de desplazamiento en Internet Explorer y Edge */
-  scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #647c90;
+}
+
+/* Inputs */
+.form-input {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db; /* Tailwind's gray-300 */
+  border-radius: 0.5rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #0c396e; /* Tailwind's purple-500 */ 
+}
+
+.form-input[disabled] {
+  background-color: #f9fafb; /* Tailwind's gray-100 */
+  cursor: not-allowed;
+}
+
+/* Mensajes de error */
+.form-error {
+  color: #ef4444; /* Tailwind's red-500 */
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  text-align: center;
 }

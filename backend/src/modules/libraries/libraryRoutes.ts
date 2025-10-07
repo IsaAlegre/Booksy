@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { libraryController } from "./libraryController";
+import { libraryController } from "./libraryController.js";
 
 // La opción { mergeParams: true } es crucial para poder acceder a :userId desde el enrutador padre.
 const router = Router({ mergeParams: true });

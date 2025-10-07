@@ -1,10 +1,10 @@
 // src/routes.ts
 import { Router } from "express";
-import bookRoutes from "./modules/books/bookRoutes";
-import userRoutes from "./modules/users/userRoutes"; // 1.
-import authRoutes from "./modules/auth/authRoutes"; // 
-import reviewRoutes from "./modules/reviews/reviewRoutes";
-import suggestionRoutes from "./modules/suggestions/suggestionRoutes"; // 2.
+import bookRoutes from "./modules/books/bookRoutes.js";
+import userRoutes from "./modules/users/userRoutes.js"; // 1.
+import authRoutes from "./modules/auth/authRoutes.js"; // 
+import reviewRoutes from "./modules/reviews/reviewRoutes.js";
+import suggestionRoutes from "./modules/suggestions/suggestionRoutes.js"; // 2.
 
 const router = Router();
 

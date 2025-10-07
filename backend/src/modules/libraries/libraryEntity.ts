@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
-import { User } from "../users/userEntity";
-import { Book } from "../books/bookEntity";
+import type { User } from "../users/userEntity.js";
+import type { Book} from "../books/bookEntity.js";
 
 export enum LibraryStatus {
   READ = "read",
@@ -21,12 +21,12 @@ export class Library {
   status!: LibraryStatus;
 
   // Relación: Muchas entradas de biblioteca pertenecen a un usuario
-  @ManyToOne(() => User, (user) => user.libraryEntries, { onDelete: 'CASCADE' })
+  @ManyToOne("User", (user: User) => user.libraryEntries, { onDelete: 'CASCADE' })
   @JoinColumn({ name: "userId" }) // Esto crea la columna 'userId' en la tabla 'libraries'
   user!: User;
 
   // Relación: Muchas entradas de biblioteca se refieren a un libro
-  @ManyToOne(() => Book, (book) => book.libraryEntries, { onDelete: 'CASCADE' })
+  @ManyToOne("Book", (book: Book) => book.libraryEntries, { onDelete: 'CASCADE' })
   @JoinColumn({ name: "bookId" }) // Esto crea la columna 'bookId'
   book!: Book;
 }

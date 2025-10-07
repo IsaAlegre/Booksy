@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ReviewService } from "./reviewService";
+import { ReviewService } from "./reviewService.js";
 
 const reviewService = new ReviewService();
 

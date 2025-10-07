@@ -1,18 +1,21 @@
 // src/middleware/errorHandler.ts
 import type { Request, Response, NextFunction } from "express";
-import { NotFoundError } from "../errors/NotFoundErrors";
+import { NotFoundError } from "../errors/NotFoundErrors.js";
 
-export function errorHandler(
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  if (err instanceof NotFoundError) {
-    return res.status(err.statusCode).json({ message: err.message });
-  }
-  console.error("Error no controlado:", err);
-
-  // Envía una respuesta genérica al cliente
-  res.status(500).json({ message: "Internal server error" });
+interface AppError extends Error {
+    statusCode?: number;
 }
+
+export const errorHandler = (err: AppError, req: Request, res: Response, next: NextFunction) => {
+    // Ahora TypeScript sabe que err PUEDE tener un statusCode
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+
+    if (err instanceof NotFoundError) {
+        return res.status(404).json({ message: err.message });
+    }
+
+    res.status(statusCode).json({
+        message: message,
+    });
+};

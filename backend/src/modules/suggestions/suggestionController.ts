@@ -1,7 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
-import { suggestionService } from "./suggestionService";
+import { suggestionService } from "./suggestionService.js";
 
-// ...existing code...
 
 export class SuggestionController {
   static async create(req: Request, res: Response, next: NextFunction) {

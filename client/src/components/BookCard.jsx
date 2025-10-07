@@ -5,12 +5,17 @@ export default function BookCard({ book }) {
     if (!book) {
     return null;
   }
+
+  const imgSrc = book.coverUrl ?? "/placeholder.jpg";
   return (
-    <article className="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transform transition-all duration-500 ease-in-out w-64">
-      <figure className="w-full h-80 overflow-hidden rounded-md">
+    <article className="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transform transition-all duration-500 ease-in-out h-full flex flex-col">
+      <figure className="w-full h-80 overflow-hidden rounded-t-xl">
         <img
-          src={book.image}
+          src={imgSrc}
           alt={`Portada del libro ${book.title}`}
+          loading="lazy"
+          width={240}
+          height={320}
           className="w-full h-full object-cover"
         />
       </figure>
@@ -20,7 +25,7 @@ export default function BookCard({ book }) {
         <Link 
           to={`/book/${book.id}`}
           aria-label={`Ver detalles de ${book.title}`}
-          className="mt-4 self-start text-purple-700 font-semibold hover:text-purple-900 transition-colors duration-300"
+          className="mt-auto self-start text-[#8155ba] font-semibold hover:text-purple-900 transition-colors duration-300"
           >
             Ver detalles →
         </Link>

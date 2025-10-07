@@ -1,23 +1,38 @@
-//import "reflect-metadata";
-import { DataSource } from "typeorm";
+import { DataSource, DataSourceOptions } from "typeorm";
 import dotenv from "dotenv";
 
-import { User } from "../modules/users/userEntity";
-import { Book } from "../modules/books/bookEntity";
-import { Review } from "../modules/reviews/reviewEntity";
-import { Library } from "../modules/libraries/libraryEntity";
-import { Suggestion } from "../modules/suggestions/suggestionEntity";
+import { User } from "../modules/users/userEntity.js";
+import { Book } from "../modules/books/bookEntity.js";
+import { Review } from "../modules/reviews/reviewEntity.js";
+import { Library } from "../modules/libraries/libraryEntity.js";
+import { Suggestion } from "../modules/suggestions/suggestionEntity.js";
 
 dotenv.config();
 
-export const AppDataSource = new DataSource({
-    type: "postgres",
-    host: process.env.DB_HOST as string,
-    port: Number(process.env.DB_PORT),
-    username: process.env.DB_USER as string,
-    password: process.env.DB_PASS as string,
-    database: process.env.DB_NAME  as string,
-    synchronize: true,
-    logging: false,
-    entities: [User, Book, Review, Library, Suggestion],
-});
+const commonOptions = {
+  entities: [User, Book, Review, Library, Suggestion],
+  migrations: ["dist/migrations/*.js"],
+  synchronize: false,
+  logging: false,
+};
+
+const options: DataSourceOptions = process.env.DATABASE_URL
+  ? {
+      // Configuración para Producción (Render)
+      type: "postgres",
+      url: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+      ...commonOptions,
+    }
+  : {
+      // Configuración para Desarrollo Local
+      type: "postgres",
+      host: process.env.DB_HOST!, // <-- Añade '!'
+      port: Number(process.env.DB_PORT!), // <-- Añade '!'
+      username: process.env.DB_USER!, // <-- Añade '!'
+      password: process.env.DB_PASS!, // <-- Añade '!'
+      database: process.env.DB_NAME!, // <-- Añade '!'
+      ...commonOptions,
+    };
+
+export const AppDataSource = new DataSource(options);

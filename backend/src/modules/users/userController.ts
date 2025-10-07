@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
-import { userService } from "./userService";
-import { UserRole } from "./userEntity";
+import { userService } from "./userService.js";
+import { UserRole } from "./userEntity.js";
 
 export class UserController {
   async getAll(req: Request, res: Response, next: NextFunction) {

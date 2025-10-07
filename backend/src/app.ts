@@ -1,16 +1,23 @@
 import "reflect-metadata";
 import "dotenv/config";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 import express from "express";
-import { AppDataSource } from "./config/data_source";
-import routes from "./routes";
-import { errorHandler } from "./middleware/errorHandle";
+import { AppDataSource } from "./config/data_source.js";
+import routes from "./routes.js";
+import { errorHandler } from "./middleware/errorHandle.js";
 
 const app = express();
+app.use(cors());
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use("/api", routes);
 app.use(errorHandler);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use('/img', express.static(path.join(__dirname, '..', 'public', 'img')));
 
 async function startServer() {
   try {

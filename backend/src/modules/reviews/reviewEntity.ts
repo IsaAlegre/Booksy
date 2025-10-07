@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne,  JoinColumn} from "typeorm";
-import { User } from "../users/userEntity";
-import { Book } from "../books/bookEntity";
+import type { User } from "../users/userEntity.js";
+import type { Book } from "../books/bookEntity.js";
 
 @Entity("reviews")
 export class Review {
@@ -17,11 +17,11 @@ export class Review {
     createdAt!: Date;
 
     
-    @ManyToOne(() => User, (user) => user.reviews, { onDelete: 'CASCADE', eager: true })
+    @ManyToOne("User", (user: User) => user.reviews, { onDelete: 'CASCADE', eager: true })
     @JoinColumn({ name: "userId" }) 
     user!: User;
 
-    @ManyToOne(() => Book, (book) => book.reviews, { onDelete: 'CASCADE', eager: true })
+    @ManyToOne("Book", (book: Book) => book.reviews, { onDelete: 'CASCADE', eager: true })
     @JoinColumn({ name: "bookId" }) 
     book!: Book;
 }

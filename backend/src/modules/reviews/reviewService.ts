@@ -1,7 +1,7 @@
-import { AppDataSource } from "../../config/data_source";
-import { Review } from "./reviewEntity";
-import { User } from "../users/userEntity";
-import { Book } from "../books/bookEntity";
+import { AppDataSource } from "../../config/data_source.js";
+import { Review } from "./reviewEntity.js";
+import { User } from "../users/userEntity.js";
+import { Book } from "../books/bookEntity.js";
 
 export class ReviewService {
   private reviewRepository = AppDataSource.getRepository(Review);

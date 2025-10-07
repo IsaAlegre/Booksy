@@ -1,4 +1,6 @@
 import { useState } from "react";
+import apiClient from "../api/axios";
+import Swal from "sweetalert2";
 
 export default function SuggestionForm() {
   const [formData, setFormData] = useState({
@@ -22,16 +24,29 @@ export default function SuggestionForm() {
     setLoading(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-       console.log("Sugerencia enviada:", formData);
-       setFormData({
-        title: "",
-        author: "",
-        genre: "",
-        suggestion: "",
-    });
+      await apiClient.post("/suggestions", formData);
+      await Swal.fire({
+        title: "¡Gracias!",
+        text: "Tu sugerencia ha sido enviada.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        customClass: { popup: "rounded-xl" },
+      });
+      setFormData({ title: "", author: "", genre: "", suggestion: "" });
     } catch (err) {
-      console.error("Error al enviar la sugerencia:", err);
+      console.error("Error al enviar sugerencia:", err);
+      const message =
+        err.response?.data?.message ||
+        (typeof err.response?.data === "string" ? err.response.data : null) ||
+        err.message ||
+        "Error al enviar sugerencia, por favor intenta de nuevo.";
+      await Swal.fire({
+        title: "Error",
+        text: message,
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        customClass: { popup: "rounded-xl" },
+      });
     } finally {
       setLoading(false);
     }
@@ -40,18 +55,18 @@ export default function SuggestionForm() {
   return (
     <section
       aria-labelledby="form-title"
-      className=" bg-transparent  rounded-2xl mt-10 "
+      className="bg-white  rounded-2xl mt-10 "
     >
       <header className="mb-6 text-center">
-      <h2
-        id="form-title"
-        className="text-2xl font-extrabold text-purple-700"
-      >
-        ¿Qué libro crees que falta?
-      </h2>
-      <p className="text-gray-600 text-sm mt-1">
-        Dejanos tu sugerencia y ayudanos a mejorar
-      </p>
+        <h2
+          id="form-title"
+          className="text-2xl font-extrabold text-[#175873]"
+        >
+          ¿Qué libro crees que falta?
+        </h2>
+        <p className="text-[#647c90] text-sm mt-1">
+          Dejanos tu sugerencia y ayudanos a mejorar
+        </p>
       </header>
 
       <form onSubmit={handleSubmit} className="grid gap-4">
@@ -61,12 +76,13 @@ export default function SuggestionForm() {
             Nombre del libro
           </label>
           <input
+            id="title"
             type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
             required
-            className="w-full mt-1 p-3 border rounded-lg focus:ring focus:ring-purple-300"
+            className="w-full mt-1 p-3 border rounded-lg"
             placeholder="Ej: El Señor de los Anillos"
             disabled={loading}
           />
@@ -78,12 +94,13 @@ export default function SuggestionForm() {
             Autor
           </label>
           <input
+            id="author"
             type="text"
             name="author"
             value={formData.author}
             onChange={handleChange}
             required
-            className="w-full mt-1 p-3 border rounded-lg focus:ring focus:ring-purple-300"
+            className="w-full mt-1 p-3 border rounded-lg  "
             placeholder="Ej: J.R.R. Tolkien"
             disabled={loading}
           />
@@ -94,12 +111,13 @@ export default function SuggestionForm() {
             Género
           </label>
           <input
+            id="genre"
             type="text"
             name="genre"
             value={formData.genre}
             onChange={handleChange}
             required
-            className="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-purple-300"
+            className="w-full mt-1 p-2 border rounded-lg  "
             placeholder="Ej: Fantasía"
             disabled={loading}
           />
@@ -110,23 +128,24 @@ export default function SuggestionForm() {
             ¿Qué mejorarías del sistema?
           </label>
           <textarea
+            id="suggestion"
             name="suggestion"
             value={formData.suggestion}
             onChange={handleChange}
             rows="3"
-            className="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-purple-300"
+            className="w-full mt-1 p-2 border rounded-lg  "
             placeholder="Escribe tus sugerencias..."
             disabled={loading}
           />
         </div>
 
         {/* Botón enviar */}
-        <div className="flex justify-end">
+        <div className="flex justify-center mt-6">
           <button
           type="submit"
           disabled={loading}
-          className={`w-full py-2 px-4 rounded-lg transition 
-              ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700 text-white"}`}
+          className={`w-[200px] py-2 px-4 rounded-lg transition 
+              ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#647c90] hover:bg-purple-900 text-white"}`}
           >
             {loading ? "Enviando..." : "Enviar sugerencia"}
           </button>
