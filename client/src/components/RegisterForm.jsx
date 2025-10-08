@@ -28,6 +28,7 @@ export default function RegisterForm() {
   const validate = (data) => {
     const errs = {};
     if (!data.username) errs.username = "El nombre de usuario es obligatorio.";
+    else if (data.username.length < 4) errs.username = "El nombre de usuario debe tener al menos 4 caracteres.";
     if (!data.email) errs.email = "El correo es obligatorio.";
     if (!data.password) errs.password = "La contraseña es obligatoria.";
     else if (data.password.length < 8) errs.password = "La contraseña debe tener al menos 8 caracteres.";
@@ -134,7 +135,7 @@ export default function RegisterForm() {
           </label>
           <input
             id="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             value={formData.password}
             onChange={handleChange}
@@ -151,6 +152,7 @@ export default function RegisterForm() {
           >
             {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
           </button>
+          {error && <div className="form-error">{error}</div>}
           {validationErrors.password && (
             <p className="form-error">{validationErrors.password}</p>
           )}
