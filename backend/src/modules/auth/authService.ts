@@ -3,7 +3,7 @@ import { User } from "../users/userEntity.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import { RegisterUserDto } from "./dtos/register-user.dto.js"; // Importa los DTOs
+import { RegisterUserDto } from "./dtos/register-user.dto.js"; 
 import { LoginUserDto } from "./dtos/login-user.dto.js";
 
 
@@ -13,7 +13,6 @@ export async function register(registerDto: RegisterUserDto) {
     const { username, email, password } = registerDto;
     const existingUser = await userRepo.findOne({ where: [{ username }, { email }]});
     if (existingUser) {
-        // Lanza un error claro que puedes manejar en el controlador.
         throw new Error("Username or email already exists");
       }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,7 +22,7 @@ export async function register(registerDto: RegisterUserDto) {
     return userWithoutPassword;
 }
 
-// También aquí
+
 export async function login(loginDto: LoginUserDto) {
   const userRepo = AppDataSource.getRepository(User);
   const { username, password } = loginDto;
@@ -39,7 +38,6 @@ export async function login(loginDto: LoginUserDto) {
 
   const jwtSecret = process.env.JWT_SECRET;
   if (!jwtSecret) {
-    // Este error detendrá la ejecución y te alertará de una mala configuración.
     throw new Error("FATAL: JWT_SECRET is not configured in the environment.");
   }
 

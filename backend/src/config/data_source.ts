@@ -27,11 +27,11 @@ const options: DataSourceOptions = process.env.DATABASE_URL
   : {
       // Configuración para Desarrollo Local
       type: "postgres",
-      host: process.env.DB_HOST!, // <-- Añade '!'
-      port: Number(process.env.DB_PORT!), // <-- Añade '!'
-      username: process.env.DB_USER!, // <-- Añade '!'
-      password: process.env.DB_PASS!, // <-- Añade '!'
-      database: process.env.DB_NAME!, // <-- Añade '!'
+      host: process.env.DB_HOST!, 
+      port: Number(process.env.DB_PORT!),
+      username: process.env.DB_USER!, 
+      password: process.env.DB_PASS!, 
+      database: process.env.DB_NAME!, 
       ...commonOptions,
     };
 

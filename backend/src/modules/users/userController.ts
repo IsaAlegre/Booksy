@@ -31,7 +31,7 @@ export class UserController {
 
       const authenticatedUser = req.user; // Usuario que hace la petición (del token)
 
-      // Regla de autorización:
+     
       // Permite la acción si el usuario es admin O si está intentando borrar su propia cuenta.
       if (authenticatedUser?.role !== UserRole.ADMIN && authenticatedUser?.userId !== idToDelete) {
         return res.status(403).json({ message: "Forbidden: You can only delete your own account." });
@@ -47,7 +47,7 @@ export class UserController {
 
   async handleSearchUsers(req: Request, res: Response, next: NextFunction) {
     try {
-      // La consulta de búsqueda vendrá como un query parameter, ej: /users/search?q=john
+      
       const query = req.query.q as string;
 
       if (!query) {
@@ -61,7 +61,7 @@ export class UserController {
     }
   }
 
-  // MODIFICADO: Renombramos getProfile a handleGetProfile para claridad
+  
   async handleGetProfile(req: Request, res: Response, next: NextFunction) {
     try {
       const idParam = req.params.id;

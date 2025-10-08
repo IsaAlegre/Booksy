@@ -3,12 +3,12 @@ import { IsInt, IsOptional, IsString, Max, Min, MaxLength } from "class-validato
 export class CreateReviewDto {
   @IsOptional()
   @IsString()
-  @MaxLength(5000) // Por ejemplo, limita el comentario a 5000 caracteres
+  @MaxLength(5000) 
   comment?: string;
 
   @IsOptional()
   @IsInt()
-  @Min(1)   // La calificación debe ser como mínimo 1
+  @Min(1)   
   @Max(5)   // y como máximo 5
   rating?: number;
 }

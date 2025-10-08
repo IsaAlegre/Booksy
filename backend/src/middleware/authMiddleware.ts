@@ -37,7 +37,6 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
   }
 
   try {
-    // verify devuelve JwtPayload | string | Jwt | void según sobrecargas; pasamos por unknown antes de la aserción
     const verified = jwt.verify(token, jwtSecret!);
     const payload = verified as unknown as CustomJwtPayload;
 

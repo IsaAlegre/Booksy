@@ -3,7 +3,6 @@ import { libraryService } from "./libraryService.js";
 import { LibraryStatus } from "./libraryEntity.js";
 
 export class LibraryController {
-  // solo pueda modificar su propia biblioteca. No necesita cambios.
   authorize(req: Request, res: Response, next: NextFunction) {
     const authenticatedUserId = req.user?.userId;
     const userIdParam = req.params.userId;
@@ -25,7 +24,6 @@ export class LibraryController {
   async getUserLibrary(req: Request, res: Response, next: NextFunction) {
     try {
       // El middleware 'authorize' ya validó que el ID es correcto y pertenece al usuario.
-      // Podemos usarlo con confianza.
       const userId = parseInt(req.params.userId!, 10);
       const library = await libraryService.getUserLibrary(userId);
       res.json(library);

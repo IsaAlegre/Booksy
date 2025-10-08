@@ -1,4 +1,3 @@
-// src/modules/books/bookController.ts
 import type { Request, Response, NextFunction } from "express";
 import { bookService } from "./bookService.js";
 
