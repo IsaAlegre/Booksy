@@ -53,11 +53,8 @@ export default function SuggestionForm() {
   };
 
   return (
-    <section
-      aria-labelledby="form-title"
-      className="bg-white  rounded-2xl mt-10 "
-    >
-      <header className="mb-6 text-center">
+    <>
+      <header className="text-center mb-6">
         <h2
           id="form-title"
           className="text-2xl font-extrabold text-[#175873]"
@@ -144,13 +141,13 @@ export default function SuggestionForm() {
           <button
           type="submit"
           disabled={loading}
-          className={`w-[200px] py-2 px-4 rounded-lg transition 
+          className={`w-full max-w-[250px] py-2 px-4 rounded-lg transition 
               ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#647c90] hover:bg-purple-900 text-white"}`}
           >
             {loading ? "Enviando..." : "Enviar sugerencia"}
           </button>
         </div>
       </form>
-    </section>
+    </>
   );
 }
