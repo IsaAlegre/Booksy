@@ -18,8 +18,20 @@ export class User {
   @Column({ unique: true , type: "varchar" })
   email!: string;
 
-  @Column({ unique: true , type: "varchar" })
+  @Column({ type: "varchar" })
   password!: string;
+/*
+  @Column({ type: "text", nullable: true }) 
+  profilePicture?: string;
+
+  @Column({ type: "text", nullable: true }) 
+  description?: string;
+*/
+  @Column({ type: "varchar", nullable: true, select: false }) // select: false para no exponerlo en queries normales
+  passwordResetToken?: string | null;
+
+  @Column({ type: "timestamp", nullable: true, select: false })
+  passwordResetExpires?: Date | null;
 
   @Column({
     type: "enum",
