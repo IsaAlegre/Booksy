@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link} from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -67,14 +68,19 @@ export default function LoginForm() {
     setErrors(newErrors);
     setTouched({ username: true, password: true });
 
-    if (Object.keys(newErrors).length > 0) return;
+    if (Object.keys(newErrors).length > 0) {
+      setLoading(false); // Detener el loading si hay errores de validación
+      return;
+    }
+
 
     try {
       await login(formData.username, formData.password); // Guarda el token usando el contexto
+      toast.success("Inicio de sesión exitoso!");
       navigate("/"); // Redirige a la página principal
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || "Error al iniciar sesion, por favor intenta de nuevo.";
-      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

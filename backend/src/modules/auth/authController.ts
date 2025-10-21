@@ -1,10 +1,11 @@
 import type { Request, Response, NextFunction } from "express";
-import { register, login } from "./authService.js";
+import { register, login, requestPasswordReset, resetPassword } from "./authService.js";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import { RegisterUserDto } from "./dtos/register-user.dto.js";
 import { LoginUserDto } from "./dtos/login-user.dto.js";
 import { userService } from "../users/userService.js";
+
 
 export async function handleRegister(req: Request, res: Response, next: NextFunction) {
   try {
@@ -56,6 +57,40 @@ export async function handleMe(req: Request, res: Response, next: NextFunction) 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...safeUser } = user as any;
     return res.json(safeUser);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function handleForgotPassword(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "El correo es obligatorio." });
+    }
+    await requestPasswordReset(email);
+    // Siempre enviamos una respuesta genérica por seguridad
+    res.json({ message: "Si existe una cuenta con ese correo, se ha enviado un enlace de reseteo." });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function handleResetPassword(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    if (!token) {
+      return res.status(400).json({ message: "El token de reseteo es obligatorio." });
+    }
+
+    if (!password) {
+      return res.status(400).json({ message: "La nueva contraseña es obligatoria." });
+    }
+
+    await resetPassword(token, password);
+    res.json({ message: "La contraseña ha sido actualizada exitosamente." });
   } catch (error) {
     next(error);
   }
