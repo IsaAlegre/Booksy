@@ -34,8 +34,6 @@ export class UserService {
   }
 
   async searchByUsername(query: string): Promise<Partial<User>[]> {
-    // Usamos ILike para una búsqueda case-insensitive y parcial (ej: 'jo' encuentra 'John' y 'joy')
-    // Usamos .select() para devolver SOLO los campos públicos.
     return this.userRepo.find({
       where: {
         username: ILike(`%${query}%`),
@@ -45,13 +43,36 @@ export class UserService {
     });
   }
 
-  // NUEVO MÉTODO: Obtener un perfil público por ID
+  
   async findProfileById(id: number): Promise<Partial<User> | null> {
-    // De nuevo, usamos .select() para garantizar que solo se devuelvan datos públicos.
     return this.userRepo.findOne({
       where: { id },
       select: ["id", "username"],
     });
+  }
+
+  async updateProfile(
+    userId: number,
+    updates: { description?: string | undefined; profilePicture?: string | undefined }
+  ) {
+    const user = await this.userRepo.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    // Actualizar descripción si se proporciona
+    if (updates.description !== undefined) {
+      user.description = updates.description;
+    }
+
+    // Actualizar foto de perfil si se proporciona
+    if (updates.profilePicture !== undefined) {
+      user.profilePicture = updates.profilePicture;
+    }
+
+    // Guardar los cambios
+    return this.userRepo.save(user);
   }
 }
 

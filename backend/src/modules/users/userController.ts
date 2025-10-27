@@ -85,6 +85,37 @@ export class UserController {
       next(error);
     }
   }
+
+   async updateProfile(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = (req as any).user?.userId; // Obtén el ID del usuario del token JWT
+      
+      if (!userId) {
+        return res.status(401).json({ message: "No autenticado" });
+      }
+
+      const { description } = req.body;
+      let profilePictureUrl: string | undefined;
+
+      // Si se subió una foto, obtén la URL desde Cloudinary
+      if (req.file) {
+        profilePictureUrl = (req.file as any).path; // URL de Cloudinary
+      }
+
+      // Actualiza el perfil del usuario
+      const updatedUser = await userService.updateProfile(userId, {
+        description: description || undefined,
+        profilePicture: profilePictureUrl,
+      });
+
+      res.json({
+        message: "Perfil actualizado exitosamente",
+        user: updatedUser,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const userController = new UserController();
