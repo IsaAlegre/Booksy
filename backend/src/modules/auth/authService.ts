@@ -51,6 +51,8 @@ export async function login(loginDto: LoginUserDto) {
   return { token, user: safeUser };
 }
 
+// Función para solicitar reseteo de contraseña
+// genera un token, lo guarda en la BD y envía un correo al usuario, guarda el token hasheado y la fecha de expiración
 export async function requestPasswordReset(email: string) {
   const userRepository = AppDataSource.getRepository(User);
   const user = await userRepository.findOneBy({ email });
@@ -91,6 +93,8 @@ export async function requestPasswordReset(email: string) {
   await transporter.sendMail(mailOptions);
 }
 
+// Función para resetear la contraseña usando el token
+// valida el token, actualiza la contraseña y elimina el token de la BD
 export async function resetPassword(token: string, newPassword: string) {
   // 1. Hashear el token que viene del usuario para buscarlo en la BD
   const hashedToken = crypto.createHash("sha256").update(token).digest("hex");

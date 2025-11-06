@@ -5,7 +5,7 @@ import cloudinary from "./cloudinary.js";
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "booksy/profile_pictures", // Carpeta en Cloudinary
+    folder: "booksy/profile_pictures", 
     resource_type: "auto", // Auto-detecta el tipo de archivo
     allowed_formats: ["jpg", "jpeg", "png", "webp"], // Formatos permitidos
     quality: "auto", // Optimización automática
