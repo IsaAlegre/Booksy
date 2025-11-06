@@ -33,13 +33,25 @@ export class UserService {
     }
   }
 
+  // Búsqueda simple por username
   async searchByUsername(query: string): Promise<Partial<User>[]> {
+    if (!query || query.trim().length === 0) {
+      throw new Error("Search query cannot be empty");
+    }
+
+    if (query.length > 50) {
+      throw new Error("Search query is too long (max 50 characters)");
+    }
+
     return this.userRepo.find({
       where: {
         username: ILike(`%${query}%`),
       },
-      select: ["id", "username"], // Define aquí qué campos son públicos
-      take: 10, // Limita el número de resultados para no sobrecargar la respuesta
+      select: ["id", "username", "profilePicture"],
+      take: 20,
+      order: {
+        username: "ASC",
+      },
     });
   }
 
@@ -47,8 +59,29 @@ export class UserService {
   async findProfileById(id: number): Promise<Partial<User> | null> {
     return this.userRepo.findOne({
       where: { id },
-      select: ["id", "username"],
+      select: ["id", "username", "profilePicture", "description"], // Campos públicos del perfil
     });
+  }
+
+  async getPublicProfile(userId: number) {
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+      relations: ["libraryEntries", "libraryEntries.book"],
+      select: ["id", "username", "profilePicture", "description"],
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Retornar solo datos públicos
+    return {
+      id: user.id,
+      username: user.username,
+      profilePicture: user.profilePicture,
+      description: user.description,
+      libraryEntries: user.libraryEntries || [],
+    };
   }
 
   async updateProfile(

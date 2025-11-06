@@ -10,8 +10,15 @@ const router = Router();
 
 router.get("/search", userController.handleSearchUsers.bind(userController));
 
-// GET /api/users/123 -> Ver perfil público
+// Obtener perfil básico de un usuario (nombre, foto, descripción)
+// GET /api/users/:id
 router.get("/:id", userController.handleGetProfile.bind(userController));
+
+// Obtener perfil COMPLETO de un usuario (con biblioteca)
+// GET /api/users/:id/public
+router.get("/:id/public", userController.handleGetPublicProfile.bind(userController));
+
+// Rutas que requieren autenticación
 
 router.get("/", authMiddleware, adminMiddleware, userController.getAll.bind(userController));
 
