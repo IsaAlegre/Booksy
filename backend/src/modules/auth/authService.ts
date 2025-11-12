@@ -83,7 +83,8 @@ export async function requestPasswordReset(email: string) {
   await userRepository.save(user);
 
   // 3. Enviar el correo
-  const resetURL = `http://localhost:5173/api/reset-password/${resetToken}`; // URL del frontend
+  const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+  const resetURL = `${frontendUrl}/reset-password/${resetToken}`; // URL del frontend
 
   const mailOptions = {
     from: '"Booksy" <no-reply@booksy.com>',
@@ -91,6 +92,7 @@ export async function requestPasswordReset(email: string) {
     subject: "Reseteo de contraseña para Booksy",
     html: `<p>Has solicitado un reseteo de contraseña.</p>
            <p>Haz clic en este <a href="${resetURL}">enlace</a> para establecer una nueva contraseña.</p>
+           <p>Este enlace expira en 10 minutos.</p>
            <p>Si no solicitaste esto, por favor ignora este correo.</p>`,
   };
 
