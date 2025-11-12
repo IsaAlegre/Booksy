@@ -9,7 +9,7 @@ import type { Request, Response, NextFunction } from "express";
  */
 export function ownershipMiddleware(req: Request, res: Response, next: NextFunction) {
   try {
-    const idParam = req.params.userid;
+    const idParam = req.params.userId;
       if (!idParam) {
         return res.status(400).json({ message: "El id de usuario debe ser proporcionado en la URL." });
       }
