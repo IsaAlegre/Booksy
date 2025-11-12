@@ -33,6 +33,10 @@ export async function login(loginDto: LoginUserDto) {
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
+  console.log("Intento de login:");
+  console.log("Username:", username);
+  console.log("Password plano:", password);
+  console.log("Hash guardado:", user.password);
   if (!isPasswordValid) {
     throw new Error("Invalid credentials");
   }
