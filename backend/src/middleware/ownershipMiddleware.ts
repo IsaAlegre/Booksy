@@ -17,7 +17,7 @@ export function ownershipMiddleware(req: Request, res: Response, next: NextFunct
     const userIdFromUrl = parseInt(idParam, 10);
 
     // 2. Obtener el userId del token JWT (ya fue validado por authMiddleware)
-    const authenticatedUserId = req.user?.userId;
+    const authenticatedUserId = (req as any).user?.userId;
 
     // 3. Validaciones
     if (isNaN(userIdFromUrl)) {
