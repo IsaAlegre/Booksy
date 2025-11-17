@@ -10,12 +10,12 @@ const router = Router({ mergeParams: true });
 router.get("/", libraryController.getUserLibrary.bind(libraryController));
 
 // POST /api/users/:userId/library
-router.post("/",authMiddleware, ownershipMiddleware, libraryController.addBook.bind(libraryController));
+router.post("/", authMiddleware, ownershipMiddleware, libraryController.addBook.bind(libraryController));
 
-// PUT /api/users/:userId/library/:bookId
-router.put("/:bookId", authMiddleware, ownershipMiddleware, libraryController.updateStatus.bind(libraryController));
+// PUT /api/users/:userId/library/:libraryId
+router.put("/:libraryId", authMiddleware, ownershipMiddleware, libraryController.updateStatus.bind(libraryController));
 
-// DELETE /api/users/:userId/library/:bookId
-router.delete("/:bookId", authMiddleware, ownershipMiddleware, libraryController.removeBook.bind(libraryController));
+// DELETE /api/users/:userId/library/:libraryId
+router.delete("/:libraryId", authMiddleware, ownershipMiddleware, libraryController.removeBook.bind(libraryController));
 
 export default router;

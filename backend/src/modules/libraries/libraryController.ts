@@ -72,17 +72,16 @@ export class LibraryController {
  async updateStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const userIdParam = req.params.userId;
-      const libraryIdParam = req.params.bookId; // ⚠️ Viene como bookId en la ruta, pero es el libraryId
-      const { status } = req.body;
+      const libraryIdParam = req.params.libraryId; // ✅ CAMBIO: req.params.bookId → req.params.libraryId
 
       console.log("========== updateStatus ==========");
       console.log("userIdParam:", userIdParam);
       console.log("libraryIdParam:", libraryIdParam);
-      console.log("status:", status);
+      console.log("status:", req.body.status);
       console.log("user del token:", (req as any).user);
       console.log("==================================");
 
-      console.log("🔍 updateStatus - userId:", userIdParam, "libraryId:", libraryIdParam, "status:", status);
+      console.log("🔍 updateStatus - userId:", userIdParam, "libraryId:", libraryIdParam, "status:", req.body.status);
 
       if (!userIdParam || !libraryIdParam) {
         return res.status(400).json({ message: "User ID and Library ID parameters are required" });
@@ -95,25 +94,25 @@ export class LibraryController {
         return res.status(400).json({ message: "Invalid ID format" });
       }
 
-      if (!status || !Object.values(LibraryStatus).includes(status)) {
+      if (!req.body.status || !Object.values(LibraryStatus).includes(req.body.status)) {
         return res.status(400).json({ 
           message: `Invalid status. Must be one of: ${Object.values(LibraryStatus).join(', ')}` 
         });
       }
 
       // ✅ Pasar libraryId, no bookId
-      const updatedEntry = await libraryService.updateBookStatus(userId, libraryId, status);
+      const updatedEntry = await libraryService.updateBookStatus(userId, libraryId, req.body.status);
       res.json(updatedEntry);
     } catch (error) {
       console.error("Error en updateStatus:", error);
       next(error);
     }
   }
-  
-   async removeBook(req: Request, res: Response, next: NextFunction) {
+
+  async removeBook(req: Request, res: Response, next: NextFunction) {
     try {
       const userIdParam = req.params.userId;
-      const libraryIdParam = req.params.bookId; // ⚠️ Viene como bookId en la ruta, pero es el libraryId
+      const libraryIdParam = req.params.libraryId; // ✅ CAMBIO: req.params.bookId → req.params.libraryId
 
       console.log("========== removeBook ==========");
       console.log("userIdParam:", userIdParam);
