@@ -32,16 +32,25 @@ export class LibraryService {
     return this.libraryRepo.save(newEntry);
   }
 
-  async updateBookStatus(userId: number, bookId: number, status: LibraryStatus): Promise<Library> {
-    const entry = await this.libraryRepo.findOne({ where: { user: { id: userId }, book: { id: bookId } } });
+  async updateBookStatus(userId: number, libraryId: number, status: LibraryStatus): Promise<Library> {
+    
+    const entry = await this.libraryRepo.findOne({
+      where: { id: libraryId, user: { id: userId } },
+      relations: ["book"],
+    });
+    
     if (!entry) throw new Error("Book not found in user's library");
 
     entry.status = status;
     return this.libraryRepo.save(entry);
   }
 
-  async removeBookFromLibrary(userId: number, bookId: number): Promise<void> {
-    const entry = await this.libraryRepo.findOne({ where: { user: { id: userId }, book: { id: bookId } } });
+  async removeBookFromLibrary(userId: number, libraryId: number): Promise<void> {
+    
+    const entry = await this.libraryRepo.findOne({
+      where: { id: libraryId, user: { id: userId } },
+    });
+    
     if (!entry) throw new Error("Book not found in user's library");
 
     await this.libraryRepo.remove(entry);

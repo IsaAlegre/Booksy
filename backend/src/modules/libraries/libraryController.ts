@@ -69,20 +69,22 @@ export class LibraryController {
   }
 
  
-  async updateStatus(req: Request, res: Response, next: NextFunction) {
+ async updateStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const userIdParam = req.params.userId;
-      const bookIdParam = req.params.bookId;
+      const libraryIdParam = req.params.bookId; // ⚠️ Viene como bookId en la ruta, pero es el libraryId
       const { status } = req.body;
 
-      if (!userIdParam || !bookIdParam) {
-        return res.status(400).json({ message: "User ID and Book ID parameters are required" });
+      console.log("🔍 updateStatus - userId:", userIdParam, "libraryId:", libraryIdParam, "status:", status);
+
+      if (!userIdParam || !libraryIdParam) {
+        return res.status(400).json({ message: "User ID and Library ID parameters are required" });
       }
 
       const userId = parseInt(userIdParam, 10);
-      const bookId = parseInt(bookIdParam, 10);
+      const libraryId = parseInt(libraryIdParam, 10);
 
-      if (isNaN(userId) || isNaN(bookId)) {
+      if (isNaN(userId) || isNaN(libraryId)) {
         return res.status(400).json({ message: "Invalid ID format" });
       }
 
@@ -92,32 +94,35 @@ export class LibraryController {
         });
       }
 
-      const updatedEntry = await libraryService.updateBookStatus(userId, bookId, status);
+      // ✅ Pasar libraryId, no bookId
+      const updatedEntry = await libraryService.updateBookStatus(userId, libraryId, status);
       res.json(updatedEntry);
     } catch (error) {
       console.error("Error en updateStatus:", error);
       next(error);
     }
   }
-
   
-  async removeBook(req: Request, res: Response, next: NextFunction) {
+   async removeBook(req: Request, res: Response, next: NextFunction) {
     try {
       const userIdParam = req.params.userId;
-      const bookIdParam = req.params.bookId;
+      const libraryIdParam = req.params.bookId; // ⚠️ Viene como bookId en la ruta, pero es el libraryId
+      
+      console.log("🗑️ removeBook - userId:", userIdParam, "libraryId:", libraryIdParam);
 
-      if (!userIdParam || !bookIdParam) {
-        return res.status(400).json({ message: "User ID and Book ID parameters are required" });
+      if (!userIdParam || !libraryIdParam) {
+        return res.status(400).json({ message: "User ID and Library ID parameters are required" });
       }
 
       const userId = parseInt(userIdParam, 10);
-      const bookId = parseInt(bookIdParam, 10);
+      const libraryId = parseInt(libraryIdParam, 10);
 
-      if (isNaN(userId) || isNaN(bookId)) {
+      if (isNaN(userId) || isNaN(libraryId)) {
         return res.status(400).json({ message: "Invalid ID format" });
       }
 
-      await libraryService.removeBookFromLibrary(userId, bookId);
+      // ✅ Pasar libraryId, no bookId
+      await libraryService.removeBookFromLibrary(userId, libraryId);
       res.status(204).send();
     } catch (error) {
       console.error("Error en removeBook:", error);
