@@ -36,7 +36,7 @@ export class LibraryService {
     
     const entry = await this.libraryRepo.findOne({
       where: { id: libraryId, user: { id: userId } },
-      relations: ["book"],
+      relations: ["book", "user"], // ✅ AGREGADO: "user"
     });
     
     if (!entry) throw new Error("Book not found in user's library");
@@ -49,6 +49,7 @@ export class LibraryService {
     
     const entry = await this.libraryRepo.findOne({
       where: { id: libraryId, user: { id: userId } },
+      relations: ["user"], // ✅ AGREGADO: "user"
     });
     
     if (!entry) throw new Error("Book not found in user's library");
