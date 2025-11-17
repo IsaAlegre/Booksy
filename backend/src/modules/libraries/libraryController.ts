@@ -75,6 +75,13 @@ export class LibraryController {
       const libraryIdParam = req.params.bookId; // ⚠️ Viene como bookId en la ruta, pero es el libraryId
       const { status } = req.body;
 
+      console.log("========== updateStatus ==========");
+      console.log("userIdParam:", userIdParam);
+      console.log("libraryIdParam:", libraryIdParam);
+      console.log("status:", status);
+      console.log("user del token:", (req as any).user);
+      console.log("==================================");
+
       console.log("🔍 updateStatus - userId:", userIdParam, "libraryId:", libraryIdParam, "status:", status);
 
       if (!userIdParam || !libraryIdParam) {
@@ -107,6 +114,12 @@ export class LibraryController {
     try {
       const userIdParam = req.params.userId;
       const libraryIdParam = req.params.bookId; // ⚠️ Viene como bookId en la ruta, pero es el libraryId
+
+      console.log("========== removeBook ==========");
+      console.log("userIdParam:", userIdParam);
+      console.log("libraryIdParam:", libraryIdParam);
+      console.log("user del token:", (req as any).user);
+      console.log("================================");
       
       console.log("🗑️ removeBook - userId:", userIdParam, "libraryId:", libraryIdParam);
 
