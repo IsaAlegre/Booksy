@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link} from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { TbHome } from "react-icons/tb";
 import { toast } from "react-toastify";
 
 export default function LoginForm() {
@@ -75,9 +76,15 @@ export default function LoginForm() {
 
 
     try {
-      await login(formData.username, formData.password); // Guarda el token usando el contexto
+      const { user } = await login(formData.username, formData.password);
       toast.success("Inicio de sesión exitoso!");
-      navigate("/"); // Redirige a la página principal
+      
+      // Redirigir al panel admin si el usuario tiene id = 1
+      if (user?.id === 1) {
+        navigate("/admin/books");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || "Error al iniciar sesion, por favor intenta de nuevo.";
       toast.error(errorMessage);
@@ -92,15 +99,28 @@ export default function LoginForm() {
       className=" bg-[#e2ded0] rounded-2xl mt-10 "
     >
       <header className="form-header">
-      <h2
-        id="form-title"
-        className="form-title"
-      >
-        Bienvenido a Booksy
-      </h2>
-      <p className="text-gray-600 text-sm mt-1">
-        Por favor, inicia sesión para continuar
-      </p>
+        <h2
+          id="form-title"
+          className="form-title"
+        >
+          Bienvenido a Booksy
+        </h2>
+        {/* Botón volver al inicio - centrado */}
+        <div className="flex justify-center mt-2">
+          <Link 
+            to="/" 
+            className="flex items-center gap-2 text-sm text-[#647c90] hover:text-[#175873] font-medium transition-colors"
+            title="Volver al inicio"
+          >
+            <TbHome size={20} />
+            <span>Volver al inicio</span>
+          </Link>
+        </div>
+
+        <p className="text-gray-600 text-sm mt-1">
+          Por favor, inicia sesión para continuar
+        </p>
+      
       </header>
 
       <form onSubmit={handleSubmit} className="grid gap-4">
@@ -158,6 +178,14 @@ export default function LoginForm() {
               {errors.password}
             </p>
           )}
+        </div>
+
+        <div className="text-sm flex justify-center">
+          <Link 
+            to="/forgot-password" 
+            className="text-sm text-blue-400 hover:underline">
+            ¿Olvidaste tu contraseña?
+          </Link>
         </div>
 
         {/* Muestra el mensaje de error general */}
