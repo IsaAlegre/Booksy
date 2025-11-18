@@ -9,14 +9,14 @@ export default function BookCard({ book }) {
   const imgSrc = book.coverUrl ?? "/placeholder.jpg";
   return (
     <article className="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transform transition-all duration-500 ease-in-out h-full flex flex-col">
-      <figure className="w-full h-80 overflow-hidden rounded-t-xl">
+      <figure className="w-full aspect-[2/3] overflow-hidden rounded-t-xl">
         <img
           src={imgSrc}
           alt={`Portada del libro ${book.title}`}
           loading="lazy"
           width={240}
           height={320}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
       </figure>
       <div className="book-card__info p-3 flex-grow flex flex-col">
