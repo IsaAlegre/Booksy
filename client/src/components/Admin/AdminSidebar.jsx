@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { TbBooks, TbPlus, TbLogout, TbX } from 'react-icons/tb';
 import { useAuth } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
+import { FaBook, FaLightbulb } from 'react-icons/fa'; 
 
 export default function AdminSidebar({ isOpen, onClose }) {
   const navigate = useNavigate();
@@ -46,6 +48,11 @@ export default function AdminSidebar({ isOpen, onClose }) {
           icon={<TbPlus size={24} />}
           label="Nuevo Libro"
           onClick={() => handleNavigate('/admin/books/new')}
+        />
+        <NavLink 
+          icon={<FaLightbulb size={24} />}
+          label="Sugerencias"
+          onClick={() => handleNavigate('/admin/suggestions')}
         />
       </nav>
 
