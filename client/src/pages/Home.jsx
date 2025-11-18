@@ -1,7 +1,11 @@
 import BookCard from "../components/BookCard";
+import BooksCoverflow from "../components/BookCoverFlow";
 import apiClient from "../api/axios";
 import { useEffect, useState, useMemo } from "react";
-import {useSearch, SearchProvider} from "../context/SearchContext";
+import {useSearch} from "../context/SearchContext";
+import { motion } from "framer-motion";
+import { FaChevronDown } from "react-icons/fa";
+
 
 export default function Home() {
   const [books, setBooks] = useState([]);
@@ -40,13 +44,83 @@ export default function Home() {
   console.log("Query para filtrar:", debouncedQuery);
   console.log("Libros disponibles para filtrar:", books);
 
+  const scrollToSection = () => {
+  const target = document.getElementById("discover-section");
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
 return (
-      <section aria-labelledby="seccion-title" data-testid="recomendations-section">
-        <h2 
+  <>  
+      <section className="relative w-full min-h-[60vh] md:min-h-[70vh] mb-16 rounded-2xl overflow-hidden shadow-2xl">
+              
+          {/* Fondo */}
+          <motion.div
+            className="absolute inset-0 bg-no-repeat bg-center"
+            style={{
+              backgroundImage: `url('img/home.jpg')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+            initial={{ scale: 1.25 }}   // Comienza más grande
+            animate={{ scale: 1 }}      // Vuelve lentamente al tamaño normal
+            transition={{ duration: 12, ease: "easeOut" }} // Zoom ultra suave
+          />
+
+          {/* Overlay oscuro */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
+
+          <div className="absolute inset-0 rounded-2xl pointer-events-none
+            before:absolute before:inset-0 before:rounded-2xl
+            before:bg-gradient-to-r before:from-purple-500/30 before:to-blue-500/30
+            before:blur-3xl before:opacity-50 before:animate-pulse">
+          </div>
+
+          {/* Contenido animado */}
+          <div className="relative w-full h-full min-h-[60vh] md:min-h-[70vh] flex flex-col items-center justify-center px-6">
+
+            <motion.h1
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white text-center mb-6 drop-shadow-xl"
+            >
+              Bienvenido a Booksy
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 1 }}
+              className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-100 text-center drop-shadow-md max-w-3xl"
+            >
+              Descubre un mundo de historias en cada página
+            </motion.p>
+            <motion.div
+              onClick={scrollToSection}
+              className="absolute bottom-5 cursor-pointer text-purple-300 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]"
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <FaChevronDown className="text-3xl" />
+            </motion.div>
+          </div>
+      </section>
+
+      <BooksCoverflow />
+      <section id="discover-section" aria-labelledby="seccion-title" data-testid="recomendations-section">
+        <motion.h2
           id="seccion-title"
-          className="text-xl font-extrabold text-[#647c90] mb-6">
-            You may like
-        </h2>
+          className="text-xl font-extrabold text-[#647c90] mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          You may like
+        </motion.h2>
+
 
         {loading && (
         <div className="flex justify-center items-center h-40">
@@ -73,5 +147,6 @@ return (
         </div>
         )}
       </section>
+  </>
   );
 }
