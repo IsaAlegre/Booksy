@@ -54,8 +54,15 @@ export class UserController {
         return res.status(400).json({ message: "Search query parameter 'q' is required." });
       }
 
+      if (query.length > 50) {
+        return res.status(400).json({ message: "Search query is too long (max 50 characters)." });
+      }
+
       const users = await userService.searchByUsername(query);
-      res.json(users);
+      res.json({
+        data: users,
+        total: users.length,
+      });
     } catch (error) {
       next(error);
     }
@@ -81,6 +88,62 @@ export class UserController {
       }
       
       res.json(userProfile);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async handleGetPublicProfile(req: Request, res: Response, next: NextFunction) {
+    try {
+      const idParam = req.params.id;
+
+      if (!idParam) {
+        return res.status(400).json({ message: "User ID must be provided in the URL." });
+      }
+
+      const userId = parseInt(idParam, 10);
+
+      if (isNaN(userId)) {
+        return res.status(400).json({ message: "Invalid user ID format." });
+      }
+
+      const profile = await userService.getPublicProfile(userId);
+
+      res.json(profile);
+    } catch (error: any) {
+      if (error.message === "User not found") {
+        return res.status(404).json({ message: "User not found" });
+      }
+      next(error);
+    }
+  }
+
+   async updateProfile(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = (req as any).user?.userId; // Obtén el ID del usuario del token JWT
+      
+      if (!userId) {
+        return res.status(401).json({ message: "No autenticado" });
+      }
+
+      const { description } = req.body;
+      let profilePictureUrl: string | undefined;
+
+      // Si se subió una foto, obtén la URL desde Cloudinary
+      if (req.file) {
+        profilePictureUrl = (req.file as any).path; // URL de Cloudinary
+      }
+
+      // Actualiza el perfil del usuario
+      const updatedUser = await userService.updateProfile(userId, {
+        description: description || undefined,
+        profilePicture: profilePictureUrl,
+      });
+
+      res.json({
+        message: "Perfil actualizado exitosamente",
+        user: updatedUser,
+      });
     } catch (error) {
       next(error);
     }

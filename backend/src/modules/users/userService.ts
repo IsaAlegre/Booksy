@@ -33,25 +33,79 @@ export class UserService {
     }
   }
 
+  // Búsqueda simple por username
   async searchByUsername(query: string): Promise<Partial<User>[]> {
-    // Usamos ILike para una búsqueda case-insensitive y parcial (ej: 'jo' encuentra 'John' y 'joy')
-    // Usamos .select() para devolver SOLO los campos públicos.
+    if (!query || query.trim().length === 0) {
+      throw new Error("Search query cannot be empty");
+    }
+
+    if (query.length > 50) {
+      throw new Error("Search query is too long (max 50 characters)");
+    }
+
     return this.userRepo.find({
       where: {
         username: ILike(`%${query}%`),
       },
-      select: ["id", "username"], // Define aquí qué campos son públicos
-      take: 10, // Limita el número de resultados para no sobrecargar la respuesta
+      select: ["id", "username", "profilePicture"],
+      take: 20,
+      order: {
+        username: "ASC",
+      },
     });
   }
 
-  // NUEVO MÉTODO: Obtener un perfil público por ID
+  
   async findProfileById(id: number): Promise<Partial<User> | null> {
-    // De nuevo, usamos .select() para garantizar que solo se devuelvan datos públicos.
     return this.userRepo.findOne({
       where: { id },
-      select: ["id", "username"],
+      select: ["id", "username", "profilePicture", "description"], // Campos públicos del perfil
     });
+  }
+
+  async getPublicProfile(userId: number) {
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+      relations: ["libraryEntries", "libraryEntries.book"],
+      select: ["id", "username", "profilePicture", "description"],
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Retornar solo datos públicos
+    return {
+      id: user.id,
+      username: user.username,
+      profilePicture: user.profilePicture,
+      description: user.description,
+      libraryEntries: user.libraryEntries || [],
+    };
+  }
+
+  async updateProfile(
+    userId: number,
+    updates: { description?: string | undefined; profilePicture?: string | undefined }
+  ) {
+    const user = await this.userRepo.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    // Actualizar descripción si se proporciona
+    if (updates.description !== undefined) {
+      user.description = updates.description;
+    }
+
+    // Actualizar foto de perfil si se proporciona
+    if (updates.profilePicture !== undefined) {
+      user.profilePicture = updates.profilePicture;
+    }
+
+    // Guardar los cambios
+    return this.userRepo.save(user);
   }
 }
 

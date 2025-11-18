@@ -20,13 +20,13 @@ export class User {
 
   @Column({ type: "varchar" })
   password!: string;
-/*
+
   @Column({ type: "text", nullable: true }) 
   profilePicture?: string;
 
   @Column({ type: "text", nullable: true }) 
   description?: string;
-*/
+  
   @Column({ type: "varchar", nullable: true, select: false }) // select: false para no exponerlo en queries normales
   passwordResetToken?: string | null;
 

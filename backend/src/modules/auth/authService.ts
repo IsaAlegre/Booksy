@@ -33,6 +33,10 @@ export async function login(loginDto: LoginUserDto) {
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
+  console.log("Intento de login:");
+  console.log("Username:", username);
+  console.log("Password plano:", password);
+  console.log("Hash guardado:", user.password);
   if (!isPasswordValid) {
     throw new Error("Invalid credentials");
   }
@@ -51,6 +55,8 @@ export async function login(loginDto: LoginUserDto) {
   return { token, user: safeUser };
 }
 
+// Función para solicitar reseteo de contraseña
+// genera un token, lo guarda en la BD y envía un correo al usuario, guarda el token hasheado y la fecha de expiración
 export async function requestPasswordReset(email: string) {
   const userRepository = AppDataSource.getRepository(User);
   const user = await userRepository.findOneBy({ email });
@@ -77,7 +83,8 @@ export async function requestPasswordReset(email: string) {
   await userRepository.save(user);
 
   // 3. Enviar el correo
-  const resetURL = `http://localhost:5173/api/reset-password/${resetToken}`; // URL del frontend
+  const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+  const resetURL = `${frontendUrl}/reset-password/${resetToken}`; // URL del frontend
 
   const mailOptions = {
     from: '"Booksy" <no-reply@booksy.com>',
@@ -85,12 +92,15 @@ export async function requestPasswordReset(email: string) {
     subject: "Reseteo de contraseña para Booksy",
     html: `<p>Has solicitado un reseteo de contraseña.</p>
            <p>Haz clic en este <a href="${resetURL}">enlace</a> para establecer una nueva contraseña.</p>
+           <p>Este enlace expira en 10 minutos.</p>
            <p>Si no solicitaste esto, por favor ignora este correo.</p>`,
   };
 
   await transporter.sendMail(mailOptions);
 }
 
+// Función para resetear la contraseña usando el token
+// valida el token, actualiza la contraseña y elimina el token de la BD
 export async function resetPassword(token: string, newPassword: string) {
   // 1. Hashear el token que viene del usuario para buscarlo en la BD
   const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
