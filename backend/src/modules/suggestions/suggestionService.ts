@@ -14,7 +14,7 @@ export class SuggestionService {
     suggestion?: string;
   }) {
     let user: User | undefined;
-    if (userId !) {
+    if (userId !== undefined) {
       const found = await this.userRepo.findOneBy({ id: userId });
       if (!found) throw new NotFoundError("User not found");
       user = found; 
