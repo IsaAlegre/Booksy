@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import AdminLayout from "./components/Admin/AdminLayaut.jsx";
 import BookForm from "./components/Admin/BookForm.jsx";
+import AdminSuggestions from "./pages/AdminSuggestions.jsx";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/admin/books" element={<AdminDashboard />} />
         <Route path="/admin/books/new" element={<AdminLayout><BookForm /></AdminLayout>} />
         <Route path="/admin/books/:id/edit" element={<AdminLayout><BookForm /></AdminLayout>} />
+        <Route path="/admin/suggestions" element={<AdminSuggestions />} /> 
       </Routes>
       <ToastContainer
         position="top-right"
