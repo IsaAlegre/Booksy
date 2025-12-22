@@ -20,17 +20,16 @@ router.put(
   userController.updateProfile.bind(userController) 
 );
 
-router.get("/:id/reading-progress", userController.getReadingProgress);
 
 // --- RUTAS CON PARÁMETROS (AL FINAL) ---
-
+router.get("/:id/reading-progress", userController.getReadingProgress.bind(userController));
 // Obtener perfil COMPLETO de un usuario (con biblioteca)
 // GET /api/users/:id/public
 router.get("/:id/public", userController.handleGetPublicProfile.bind(userController));
 
 // Obtener perfil básico de un usuario (nombre, foto, descripción)
 // GET /api/users/:id
-router.get("/:id/reading-progress", userController.getReadingProgress.bind(userController));
+
 
 // Eliminar usuario
 router.delete(
@@ -45,7 +44,7 @@ router.delete(
 // PUT /api/users/:userId/library/:bookId
 // DELETE /api/users/:userId/library/:bookId
 router.use("/:userId/library", libraryRoutes);
-
+router.get("/:id", userController.handleGetProfile.bind(userController));
 
 
 export default router;
