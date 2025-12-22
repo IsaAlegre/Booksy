@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm"; // Importar la entidad Library
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm"; // Importar la entidad Library
 import type { Library } from "../libraries/libraryEntity.js"; // Importar la entidad Library
 import type { Review } from "../reviews/reviewEntity.js";
 
@@ -45,5 +45,18 @@ export class User {
   
   @OneToMany("Review", (review:Review) => review.user)
   reviews!: Review[];
+
+  @Column({ type: "int", default: 0 })
+  yearlyGoal?: number;
+
+  @Column({ type: "int", default: new Date().getFullYear() })
+  goalYear?: number;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
+
 
 }

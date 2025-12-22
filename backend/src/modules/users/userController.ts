@@ -126,7 +126,7 @@ export class UserController {
         return res.status(401).json({ message: "No autenticado" });
       }
 
-      const { description } = req.body;
+      const { description, yearlyGoal } = req.body;
       let profilePictureUrl: string | undefined;
 
       // Si se subió una foto, obtén la URL desde Cloudinary
@@ -138,6 +138,7 @@ export class UserController {
       const updatedUser = await userService.updateProfile(userId, {
         description: description || undefined,
         profilePicture: profilePictureUrl,
+        yearlyGoal: yearlyGoal ? parseInt(yearlyGoal, 10) : undefined,
       });
 
       res.json({
@@ -148,6 +149,28 @@ export class UserController {
       next(error);
     }
   }
+
+  async getReadingProgress(req: Request, res: Response, next: NextFunction) {
+    try {
+      const idParam = req.params.id;
+
+       if (!idParam) {
+      return res.status(400).json({ message: "User ID must be provided in the URL." });
+    }
+    
+      const userId = parseInt(idParam, 10);
+      
+      if (isNaN(userId)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      const progress = await userService.getReadingProgress(userId);
+      res.json(progress);
+    } catch (error) {
+      next(error);
+    }
+  }
+
 }
 
 export const userController = new UserController();

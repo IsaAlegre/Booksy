@@ -2,6 +2,7 @@ import { AppDataSource } from "../../config/data_source.js";
 import { User } from "./userEntity.js";
 import type { Repository } from "typeorm";
 import { ILike } from "typeorm";
+import { Library } from "../libraries/libraryEntity.js";
 
 export class UserService {
   private get userRepo(): Repository<User> {
@@ -86,7 +87,7 @@ export class UserService {
 
   async updateProfile(
     userId: number,
-    updates: { description?: string | undefined; profilePicture?: string | undefined }
+    updates: { description?: string | undefined; profilePicture?: string | undefined, yearlyGoal?: number | undefined }
   ) {
     const user = await this.userRepo.findOneBy({ id: userId });
 
@@ -103,11 +104,39 @@ export class UserService {
     if (updates.profilePicture !== undefined) {
       user.profilePicture = updates.profilePicture;
     }
+    if (updates.yearlyGoal !== undefined) {
+      user.yearlyGoal = updates.yearlyGoal;
+      user.goalYear = new Date().getFullYear();
+    }
 
     // Guardar los cambios
     return this.userRepo.save(user);
   }
-}
 
+   async getReadingProgress(userId: number) {
+    const user = await this.userRepo.findOneBy({ id: userId });
+    if (!user) throw new Error("User not found");
+
+    const currentYear = new Date().getFullYear();
+    
+    // Contar libros leídos este año
+    const booksRead = await AppDataSource.getRepository(Library)
+      .createQueryBuilder("library")
+      .where("library.userId = :userId", { userId })
+      .andWhere("library.status = :status", { status: "read" })
+      .andWhere("YEAR(library.updatedAt) = :year", { year: currentYear })
+      .getCount();
+
+    return {
+      booksRead,
+      yearlyGoal: user.yearlyGoal ?? 0,
+      goalYear: user.goalYear ?? currentYear,
+      progress: (user.yearlyGoal && user.yearlyGoal > 0) // ✅ Verificar que existe y es mayor a 0
+        ? Math.min((booksRead / user.yearlyGoal) * 100, 100) 
+        : 0
+    };
+  }
+
+}
 
 export const userService = new UserService();
