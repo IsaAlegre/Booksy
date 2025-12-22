@@ -20,6 +20,8 @@ router.put(
   userController.updateProfile.bind(userController) 
 );
 
+router.get("/:id/reading-progress", userController.getReadingProgress);
+
 // --- RUTAS CON PARÁMETROS (AL FINAL) ---
 
 // Obtener perfil COMPLETO de un usuario (con biblioteca)
@@ -44,6 +46,6 @@ router.delete(
 // DELETE /api/users/:userId/library/:bookId
 router.use("/:userId/library", libraryRoutes);
 
-router.get("/:id/reading-progress", userController.getReadingProgress);
+
 
 export default router;
