@@ -124,14 +124,14 @@ export class UserService {
       .createQueryBuilder("library")
       .where("library.userId = :userId", { userId })
       .andWhere("library.status = :status", { status: "read" })
-      .andWhere("YEAR(library.updatedAt) = :year", { year: currentYear })
+      .andWhere("EXTRACT(YEAR FROM library.updatedAt) = :year", { year: currentYear })
       .getCount();
 
     return {
       booksRead,
       yearlyGoal: user.yearlyGoal ?? 0,
       goalYear: user.goalYear ?? currentYear,
-      progress: (user.yearlyGoal && user.yearlyGoal > 0) // ✅ Verificar que existe y es mayor a 0
+      progress: (user.yearlyGoal && user.yearlyGoal > 0)
         ? Math.min((booksRead / user.yearlyGoal) * 100, 100) 
         : 0
     };
