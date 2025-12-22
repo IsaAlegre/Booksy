@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import type { User } from "../users/userEntity.js";
 import type { Book} from "../books/bookEntity.js";
 
@@ -19,6 +19,12 @@ export class Library {
     default: LibraryStatus.TO_READ,
   })
   status!: LibraryStatus;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn() // ✅ Agregar este decorador
+  updatedAt!: Date;
 
   // Relación: Muchas entradas de biblioteca pertenecen a un usuario
   @ManyToOne("User", (user: User) => user.libraryEntries, { onDelete: 'CASCADE' })
