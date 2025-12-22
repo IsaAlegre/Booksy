@@ -130,7 +130,7 @@ export default function UserProfile() {
   const hasProfilePicture = !!imgSrc;
 
   return (
-    <section className="relative bg-white/10 backdrop-blur-2xl border border-white/20 shadow-xl p-10 rounded-3xl mb-10">
+    <section className="relative bg-[#f3ede0] backdrop-blur-2xl border border-white/20 shadow-xl p-10 rounded-3xl mb-10">
       {/* Modo visualización */}
       {!isEditing ? (
         <div className="flex flex-col md:flex-row gap-10 items-center">
@@ -141,15 +141,15 @@ export default function UserProfile() {
                 <img
                   src={imgSrc}
                   alt={`Foto de perfil de ${profile.username}`}
-                  className="w-40 h-40 rounded-3xl object-cover border border-white/20 shadow-xl"
+                  className="w-40 h-40 rounded-full object-cover border border-white/20 shadow-xl"
                   loading="lazy"
                   decoding="async"
                 />
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-purple-500/20 to-pink-300/10 pointer-events-none"></div>
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-300/10 pointer-events-none"></div>
               </>
             ) : (
-              <div className="w-40 h-40 rounded-3xl bg-gray-400 border border-white/20 shadow-xl flex items-center justify-center">
-                <svg className="w-24 h-24 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+              <div className="w-40 h-40 rounded-full bg-[#31657b] border border-white/20 shadow-xl flex items-center justify-center">
+                <svg className="w-20 h-20 text-white/90" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
               </div>
@@ -169,9 +169,15 @@ export default function UserProfile() {
           {/* Botón editar */}
           <button
             onClick={() => setIsEditing(true)}
-            className="px-6 py-2 bg-[#175873] text-white font-semibold rounded-lg hover:bg-[#647c90] transition"
+            className="flex items-center gap-2 px-5 py-2
+                      bg-blue-100 text-[#175873] font-semibold
+                      border border-[#175873]/30 rounded-lg
+                      hover:bg-[#175873]/60 hover:border-[#175873]/50
+                      transition md:self-start"
           >
-            Editar perfil
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm18-11.5c0-.4-.16-.78-.44-1.06l-2.25-2.25a1.5 1.5 0 00-2.12 0l-1.83 1.83 3.75 3.75 1.83-1.82c.28-.28.44-.66.44-1.06z"/>
+            </svg>
           </button>
         </div>
       ) : (
