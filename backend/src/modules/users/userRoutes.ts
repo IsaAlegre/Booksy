@@ -30,7 +30,7 @@ router.get("/:id/public", userController.handleGetPublicProfile.bind(userControl
 
 // Obtener perfil básico de un usuario (nombre, foto, descripción)
 // GET /api/users/:id
-router.get("/:id", userController.handleGetProfile.bind(userController));
+router.get("/:id/reading-progress", userController.getReadingProgress.bind(userController));
 
 // Eliminar usuario
 router.delete(
