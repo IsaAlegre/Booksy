@@ -60,7 +60,7 @@ export class UserService {
   async findProfileById(id: number): Promise<Partial<User> | null> {
     return this.userRepo.findOne({
       where: { id },
-      select: ["id", "username", "profilePicture", "description"], // Campos públicos del perfil
+      select: ["id", "username", "profilePicture", "description", "goalYear", "yearlyGoal"], // Campos públicos del perfil
     });
   }
 
